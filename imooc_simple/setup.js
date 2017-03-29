@@ -15,6 +15,8 @@ import {
 *导入变量跟方法
 */
 import RefComponent from './RefComponent';
+import Student from './Student';
+import MingStudent from './MingStudent';
 export default class setup extends Component {
   constructor(props){
     super(props);
@@ -23,6 +25,8 @@ export default class setup extends Component {
       result:'',
       size:0
     });
+    this.stu = new Student('小东',13,'男');
+    this.ming = new MingStudent();
   }
   render() {
     var params = {name:'小张',age:20,sex:'男'};
@@ -44,6 +48,12 @@ export default class setup extends Component {
             })
           }}
         >获取气球大小：{this.state.size}</Text>
+        <Text style={{fontSize:20}}>
+          {this.stu.getDescription()};
+        </Text>
+        <Text style={{fontSize:20}}>
+          {this.ming.getDescription()};
+        </Text>
         <RefComponent
           //方式一定义ref属性
           ref = "reftest"

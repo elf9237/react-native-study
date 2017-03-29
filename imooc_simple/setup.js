@@ -14,7 +14,7 @@ import {
 /**
 *导入变量跟方法
 */
-import PropsComponent from './PropsComponent';
+import StateComponent from './StateComponent';
 export default class setup extends Component {
   constructor(props){
     super(props);
@@ -29,13 +29,7 @@ export default class setup extends Component {
     var {name,sex} = params;
     return (
       <View style={styles.container}>
-        <PropsComponent
-        //使用延展操作符获取全部属性
-        //  {...params}
-        //解构赋值后添加属性
-        name={name}
-        sex={sex}
-        />
+        <StateComponent />
       </View>
     );
   }

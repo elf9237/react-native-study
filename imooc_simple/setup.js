@@ -11,27 +11,31 @@ import {
   Text,
   View
 } from 'react-native';
-import LifecycleComponent from './LifecycleComponent';
+/**
+*导入变量跟方法
+*/
+import EiComponent , {name,age,sum} from './EiComponent';
 export default class setup extends Component {
   constructor(props){
     super(props);
     this.state=({
       remove:false,
+      result:''
     });
   }
   render() {
-    var view=this.state.remove?null:<LifecycleComponent/>;
-    var text=this.state.remove?"让他复活吧":"干掉他啊";
     return (
       <View style={styles.container}>
+        <Text style={{fontSize:20}}>姓名：{name}</Text>
+        <Text style={{fontSize:20}}>年龄：{age}</Text>
         <Text style={{fontSize:20}} onPress={
           ()=>{
+            var result = sum(2,3);
             this.setState({
-              remove:!this.state.remove
+              result:result,
             })
           }
-        }>{text}</Text>
-        {view}
+        }>2+3={this.state.result}</Text>
       </View>
     );
   }

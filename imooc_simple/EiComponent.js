@@ -10,6 +10,24 @@ import {
   Text,
   View
 } from 'react-native';
+/**
+*批量导出变量
+*/
+export var user="小明";
+
+/**
+*批量导出变量、常量
+*/
+var name="小明";
+const age='22';
+export {name,age};
+
+/**
+*导出方法
+*/
+export function sum(a,b){
+  return a+b;
+}
 
 /**
 *方式一：es6方式创建组件

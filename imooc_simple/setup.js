@@ -14,13 +14,14 @@ import {
 /**
 *导入变量跟方法
 */
-import StateComponent from './StateComponent';
+import RefComponent from './RefComponent';
 export default class setup extends Component {
   constructor(props){
     super(props);
     this.state=({
       remove:false,
-      result:''
+      result:'',
+      size:0
     });
   }
   render() {
@@ -29,7 +30,27 @@ export default class setup extends Component {
     var {name,sex} = params;
     return (
       <View style={styles.container}>
-        <StateComponent />
+        <Text
+          style={{fontSize:20}}
+          onPress={()=>{
+            // 方式一获取ref属性(有两种方式)
+            //var size = this.refs.reftest.getSize();
+            var size = this.refs['reftest'].getSize();
+
+            // 方式二获取ref属性
+            // var size = this.reftest.getSize();
+            this.setState({
+              size:size,
+            })
+          }}
+        >获取气球大小：{this.state.size}</Text>
+        <RefComponent
+          //方式一定义ref属性
+          ref = "reftest"
+
+          //方式二定义ref属性
+          // ref={reftest=>this.reftest=reftest}
+        />
       </View>
     );
   }

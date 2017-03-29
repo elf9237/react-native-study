@@ -14,7 +14,7 @@ import {
 /**
 *导入变量跟方法
 */
-import EiComponent , {name,age,sum} from './EiComponent';
+import PropsComponent from './PropsComponent';
 export default class setup extends Component {
   constructor(props){
     super(props);
@@ -24,18 +24,18 @@ export default class setup extends Component {
     });
   }
   render() {
+    var params = {name:'小张',age:20,sex:'男'};
+    //使用解构赋值获取一组属性中部分属性
+    var {name,sex} = params;
     return (
       <View style={styles.container}>
-        <Text style={{fontSize:20}}>姓名：{name}</Text>
-        <Text style={{fontSize:20}}>年龄：{age}</Text>
-        <Text style={{fontSize:20}} onPress={
-          ()=>{
-            var result = sum(2,3);
-            this.setState({
-              result:result,
-            })
-          }
-        }>2+3={this.state.result}</Text>
+        <PropsComponent
+        //使用延展操作符获取全部属性
+        //  {...params}
+        //解构赋值后添加属性
+        name={name}
+        sex={sex}
+        />
       </View>
     );
   }

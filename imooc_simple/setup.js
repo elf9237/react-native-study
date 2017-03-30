@@ -16,7 +16,7 @@ import {
 */
 import RefComponent from './RefComponent';
 import Student from './Student';
-import MingStudent from './MingStudent';
+import FlexBoxComponent from './FlexBoxComponent';
 export default class setup extends Component {
   constructor(props){
     super(props);
@@ -25,42 +25,11 @@ export default class setup extends Component {
       result:'',
       size:0
     });
-    this.stu = new Student('小东',13,'男');
-    this.ming = new MingStudent();
   }
   render() {
-    var params = {name:'小张',age:20,sex:'男'};
-    //使用解构赋值获取一组属性中部分属性
-    var {name,sex} = params;
     return (
       <View style={styles.container}>
-        <Text
-          style={{fontSize:20}}
-          onPress={()=>{
-            // 方式一获取ref属性(有两种方式)
-            //var size = this.refs.reftest.getSize();
-            var size = this.refs['reftest'].getSize();
-
-            // 方式二获取ref属性
-            // var size = this.reftest.getSize();
-            this.setState({
-              size:size,
-            })
-          }}
-        >获取气球大小：{this.state.size}</Text>
-        <Text style={{fontSize:20}}>
-          {this.stu.getDescription()};
-        </Text>
-        <Text style={{fontSize:20}}>
-          {this.ming.getDescription()};
-        </Text>
-        <RefComponent
-          //方式一定义ref属性
-          ref = "reftest"
-
-          //方式二定义ref属性
-          // ref={reftest=>this.reftest=reftest}
-        />
+        <FlexBoxComponent />
       </View>
     );
   }

@@ -16,7 +16,7 @@ import {
 */
 import RefComponent from './RefComponent';
 import Student from './Student';
-import FlexBoxComponent from './FlexBoxComponent';
+import TouchableTest from './TouchableTest';
 export default class setup extends Component {
   constructor(props){
     super(props);
@@ -29,7 +29,7 @@ export default class setup extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlexBoxComponent />
+        <TouchableTest />
       </View>
     );
   }

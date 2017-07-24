@@ -1,10 +1,10 @@
-import React,{Component} from 'react';
+import React,{Component,PropTypes} from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import NavigationBar from './NavigationBar';
 
@@ -13,22 +13,19 @@ export default class Girl extends Component{
     super(props);
     this.state = {
 
-
     }
   }
-renderButton(imgUrl){
-  return <TouchableOpacity onPress={()=>{
-      this.props.navigator.pop();
-    }}>
-    <Image style={{width:22,height:22,margin:5}} source={imgUrl}/>
-  </TouchableOpacity>
-}
+  renderButton(imageUrl){
+    return <TouchableOpacity onPress={()=>{
+        this.props.navigator.pop();
+      }}>
+      <Image style={{width:22,height:22,margin:5}} source={imageUrl}/>
+    </TouchableOpacity>
+  }
   render(){
     return (
       <View style={styles.container}>
-        <NavigationBar
-          title={'Girl'}
-          style={{
+        <NavigationBar title={'Girl'} style={{
             backgroundColor:'#EE6363'
           }}
           statusBar={{
@@ -38,7 +35,7 @@ renderButton(imgUrl){
             this.renderButton(require('./res/images/ic_arrow_back_white_36pt.png'))
           }
           rightButton={
-            this.renderButton(require('./res/images/ic_star.png'))
+              this.renderButton(require('./res/images/ic_star.png'))
           }
           ></NavigationBar>
         <Text style={styles.text}>
@@ -62,7 +59,7 @@ renderButton(imgUrl){
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:'red',
+    backgroundColor:'white'
   },
   text:{
     fontSize:22

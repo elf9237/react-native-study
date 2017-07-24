@@ -12,7 +12,7 @@ import {
   View
 } from 'react-native';
 
-export default class imooc_test extends Component {
+export default class imooc_gp extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('imooc_test', () => imooc_test);
+AppRegistry.registerComponent('imooc_gp', () => imooc_gp);

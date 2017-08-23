@@ -1,3 +1,8 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow 状态栏组件
+ */
 import React,{Component,PropTypes} from 'react';
 import {
   StyleSheet,

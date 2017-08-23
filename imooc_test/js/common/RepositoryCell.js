@@ -4,8 +4,6 @@ import {
     StyleSheet,
     Text,
     Image,
-    TextInput,
-    ListView,
     TouchableOpacity,
 } from 'react-native';
 
@@ -16,40 +14,40 @@ export default class RepositoryCell extends Component {
     render() {
         return <TouchableOpacity
             style={styles.container}
-          >
-        <View style={styles.cell_container}>
-            <Text style={styles.title}>{this.props.data.full_name}</Text>
-            <Text style={styles.description}>{this.props.data.description}</Text>
-            <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between'
-            }}>
+        >
+            <View style={styles.cell_container}>
+                <Text style={styles.title}>{this.props.data.full_name}</Text>
+                <Text style={styles.description}>{this.props.data.description}</Text>
                 <View style={{
                     flexDirection: 'row',
-                    alignItems: 'center'
+                    justifyContent: 'space-between'
                 }}>
-                    <Text>Author:</Text>
-                    <Image source={{
-                        uri: this.props.data.owner.avatar_url
-                    }} style={{
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text>Author:</Text>
+                        <Image source={{
+                            uri: this.props.data.owner.avatar_url
+                        }} style={{
+                            width: 22,
+                            height: 22
+                        }}/>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text>Stars:</Text>
+                        <Text>{this.props.data.stargazers_count}</Text>
+                    </View>
+                    <Image source={require('../../res/images/ic_star.png')} style={{
                         width: 22,
                         height: 22
                     }}/>
                 </View>
-                <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'center'
-                }}>
-                    <Text>Stars:</Text>
-                    <Text>{this.props.data.stargazers_count}</Text>
-                </View>
-                <Image source={require('../../res/images/ic_star.png')} style={{
-                    width: 22,
-                    height: 22
-                }}/>
             </View>
-        </View>
-        </TouchableOpacity>
+        </TouchableOpacity>;
     }
 }
 

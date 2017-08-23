@@ -1,27 +1,23 @@
 import React,{Component} from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Navigator,
+    Navigator,
 } from 'react-native';
 import WelcomePage from './WelcomePage';
-import HomePage from './HomePage';
-
+// import HomePage from './HomePage';
 function setup(){
-  // 进行初始化配置
-  class Root extends Component{
-    renderScene(route,navigator){
-      let Component = route.component;
-      return <Component {...route.params} navigator={navigator} />
+    // 进行初始化配置
+    class Root extends Component{
+        renderScene(route,navigator){
+            let Component = route.component;
+            return <Component {...route.params} navigator={navigator} />;
+        }
+        render(){
+            return <Navigator
+                initialRoute={{component:WelcomePage}}
+                renderScene={(route,navigator)=>this.renderScene(route,navigator)}
+            />;
+        }
     }
-    render(){
-      return <Navigator
-        initialRoute={{component:WelcomePage}}
-        renderScene={(route,navigator)=>this.renderScene(route,navigator)}
-      />
-    }
-  }
-  return <Root />
+    return <Root />;
 }
 module.exports=setup;

@@ -63,10 +63,10 @@ export default class CustomKeyPage extends Component{
             );
         }
     }
-    renderView(){
-        if(!this.state.dataArray||this.state.dataArray.length===0)return null;
+    renderView(){    // 两条数据显示一行的判断
+        if(!this.state.dataArray||this.state.dataArray.length===0)return null;  // 没有数据返回null
         let len=this.state.dataArray.length;
-        console.log(this.state.dataArray);
+        // console.log(this.state.dataArray);
         let views=[];
         for(let i=0,l=len-2;i<l;i+=2){
             views.push(
@@ -77,7 +77,7 @@ export default class CustomKeyPage extends Component{
                     </View>
                     <View style={styles.line}></View>
                 </View>
-            );
+            );   // 循环数据都要加key  
         }
         views.push(
             <View key={len-1}>
@@ -93,6 +93,7 @@ export default class CustomKeyPage extends Component{
     onClick(item){
         item.checked = !item.checked;
         ArrayUtils.updataArray(this.changeValues,item);
+        // console.log(this.changeValues);
     }
     renderCheckBox(data){
         let leftText = data.name;

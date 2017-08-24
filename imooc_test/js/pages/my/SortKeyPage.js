@@ -35,7 +35,7 @@ export default class SortKeyPage extends Component{
         this.languageDao.fetch()
             .then(result=>{
                 this.getCheckedItems(result);
-                console.log(result);
+                // console.log(result);
             })
             .catch(error=>{
                 console.log(error);
@@ -52,7 +52,7 @@ export default class SortKeyPage extends Component{
             checkedArray:checkedArray,
         });
         this.originalCheckedArray=ArrayUtils.clone(checkedArray);
-        console.log(this.originalCheckedArray);
+        // console.log(this.originalCheckedArray);
     }
     onBack(){
         if(ArrayUtils.isEqual(this.originalCheckedArray,this.state.checkedArray)){
@@ -69,7 +69,8 @@ export default class SortKeyPage extends Component{
         );
     }
     onSave(isChecked){
-        if(!isChecked&&ArrayUtils.isEqual(this.originalCheckedArray,this.state.checkedArray)){
+        if(!isChecked&&ArrayUtils.isEqual(this.originalCheckedArray,this.state.checkedArray)){ 
+        //ArrayUtils.isEqual方法重复使用，另外加一个参数判断
             this.props.navigator.pop();
             return;
         }

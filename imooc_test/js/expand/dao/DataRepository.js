@@ -7,7 +7,7 @@ export default class DataRepository{
     fetchNetRepository(url){
         return new Promise((resolve,reject)=>{
             fetch(url)
-                .then(response=>response.json())
+                .then(response=>response.json())  // 将文本解析为json
                 .then(result=>{
                     resolve(result);
                 })

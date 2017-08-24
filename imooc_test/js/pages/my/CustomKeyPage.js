@@ -42,11 +42,12 @@ export default class CustomKeyPage extends Component{
         if(this.changeValues.length===0){
             this.props.navigator.pop();
             return;
-        }else{
-            this.languageDao.save(this.state.dataArray);
-            this.props.navigator.pop();
         }
-
+        for(var i = 0,l = this.changeValues.length; i<l;i++) {
+            ArrayUtils.remove(this.state.dataArray,this.changeValues[i]);
+        }
+        this.languageDao.save(this.state.dataArray);
+        this.props.navigator.pop();
     }
     onBack(){
         if(this.changeValues.length===0){
@@ -91,7 +92,7 @@ export default class CustomKeyPage extends Component{
         return views;
     }
     onClick(item){
-        item.checked = !item.checked;
+        if(!this.isRemoveKey)item.checked = !item.checked;  // 不是标签移除，取反
         ArrayUtils.updataArray(this.changeValues,item);
         // console.log(this.changeValues);
     }
@@ -108,18 +109,20 @@ export default class CustomKeyPage extends Component{
         />;
     }
     render(){
+        const title = this.isRemoveKey ? '标签移除' : '自定义标签';
+        const rightButtonTitle = this.isRemoveKey ? '移除' : '保存';
         let rightButton=<TouchableOpacity
             onPress={()=>this.onSave()}
         >
             <View style={{margin:10}}>
                 <Text style={styles.rightButton}>
-              Save
+                    {rightButtonTitle}
                 </Text>
             </View>
         </TouchableOpacity>;
         return (<View>
             <NavigationBar
-                title={'Custom Key'}
+                title={title}
                 style={{
                     backgroundColor:'#EE6363'
                 }}

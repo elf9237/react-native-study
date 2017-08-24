@@ -42,4 +42,16 @@ export default class ArrayUtils{
         }
         return true;
     }
+    /**
+     *将数组中指定元素删除
+     *@params arr
+     *@params item
+     *@returns {boolean} true 数组长度相等且元素对应相等
+     **/
+    static remove(arr,item){
+        if(!arr)return;
+        for(let i=0,l=arr.length;i<l;i++){
+            if(arr[i]===item)arr.splice(i,1);
+        }
+    }
 }

@@ -4,6 +4,7 @@ import {
     StyleSheet,
     ListView,
     RefreshControl,
+    DeviceEventEmitter,
 } from 'react-native';
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import NavigationBar from '../common/NavigationBar';
@@ -82,19 +83,38 @@ class PopularTab extends Component{
         this.setState({
             isLoading:true
         });
-        let url = URL+this.props.tabLabel+QUERY_STR;
-        this.dataRepository.fetchNetRepository(url)
+        let url = this.genFetchUrl(this.props.tabLabel);
+        this.dataRepository
+            .fetchRespository(url)
             .then(result=>{
+                const items = result && result.items ? result.items: result ? result : [];
                 this.setState({
-                    dataSource:this.state.dataSource.cloneWithRows(result.items),
+                    dataSource:this.state.dataSource.cloneWithRows(items),
                     isLoading:false,
                 });
+                if (result && result.update_date && !this.dataRepository.checkData(result.update_date)) {
+                    DeviceEventEmitter.emit('showToast', '数据已过时');
+                    return this.dataRepository.fetchNetRepository(url);
+                } else {
+                    DeviceEventEmitter.emit('showToast', '获取缓存数据');
+                }
+            })
+            .then(items => {
+                if(!items || items.length === 0)return;
+                this.setState({
+                    dataSource:this.state.dataSource.cloneWithRows(items),
+                    isLoading:false,
+                });
+                DeviceEventEmitter.emit('showToast', '获取网络数据');
             })
             .catch(error=>{
                 this.setState({
                     result:JSON.stringify(error)  //将对象解析成字符串 JSON.parse() 和 JSON.stringify()
                 });
             });
+    }
+    genFetchUrl(key) {
+        return URL + key + QUERY_STR;
     }
     renderRow(data){
         return <RepositoryCell data={data}/>;

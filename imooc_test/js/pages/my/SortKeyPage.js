@@ -118,6 +118,9 @@ export default class SortKeyPage extends Component{
                     this.state.checkedArray.splice(e.to, 0, this.state.checkedArray.splice(e.from, 1)[0]);
                     this.forceUpdate();
                 }}
+                // limitScrolling={true}
+                activeOpacity={0.2}
+                rowHasChanged={console.log('已经改变')}
                 onMoveStart={()=>{console.log(1)}}
                 onMoveEnd ={()=>{console.log(2)}}
                 sortRowStyle={{backgroundColor:'red'}}

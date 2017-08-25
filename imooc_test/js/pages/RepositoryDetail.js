@@ -9,23 +9,28 @@ import {
     WebView,
     DeviceEventEmitter,
 } from 'react-native';
-import NavigationBar from './js/common/NavigationBar';
+import NavigationBar from '../common/NavigationBar';
+import ViewUtils from '../util/ViewUtils';
 const URL = 'http://www.imooc.com';
-export default class WebViewTest extends Component{
+export default class RepositoryDetail extends Component{
     // 初始化构造函数
     constructor(props){
         super(props);
+        this.url = this.props.item.html_url;
+        const title = this.props.item.full_name;
+        console.log(this.props.item);
         this.state={
-            url:URL,
-            title: '',
+            url:this.url,
+            title,
             canGoBack: false,
         };
     }
-    goBack=()=>{
+    onBack = ()=>{
         if(this.state.canGoBack) {
             this.webView.goBack();
         } else {
-            DeviceEventEmitter.emit('showToast', '到顶了');
+            // DeviceEventEmitter.emit('showToast', '到顶了');
+            this.props.navigator.pop();
         }
     }
     go=()=>{
@@ -34,24 +39,26 @@ export default class WebViewTest extends Component{
         })
     }
     onNavigationStateChange = (e) => {
-        console.log(e);
+        // console.log(e);
         this.setState({
             canGoBack: e.canGoBack,
-            title: e.title,
+            // title: e.title,
         })
     }
     render(){
         return (
             <View style={styles.container}>
-                <NavigationBar title={'WebView使用'}
+                <NavigationBar 
+                    title={this.state.title}
                     statusBar={{
                         backgroundColor:'#EE6363'
                     }}
                     style={{
                         backgroundColor:'#EE6363'
                     }}
+                    leftButton={ViewUtils.getLeftButton(() => this.onBack())}
                 />
-                <View style={styles.row}>
+                {/* <View style={styles.row}>
                     <Text 
                     style={styles.tips}
                     onPress={() => {
@@ -67,11 +74,12 @@ export default class WebViewTest extends Component{
                     onPress={() => {
                         this.go();
                     }}>前往</Text>
-                </View>
+                </View> */}
                 <WebView
                     ref={webView => this.webView = webView}
                     source={{uri:this.state.url}}
                     onNavigationStateChange={(e) => this.onNavigationStateChange(e)}
+                    startInLoadingState={true}
                 />
             </View>
         );

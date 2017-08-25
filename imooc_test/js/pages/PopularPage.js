@@ -11,6 +11,7 @@ import NavigationBar from '../common/NavigationBar';
 import DataRepository from '../expand/dao/DataRepository';
 import RepositoryCell from '../common/RepositoryCell';
 import LanguageDao,{FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
+import RepositoryDetail from './RepositoryDetail';
 
 const URL='https://api.github.com/search/repositories?q=';
 const QUERY_STR='&page,per_page,sort,order';
@@ -48,7 +49,7 @@ export default class PopularPage extends Component{
             >
                 {this.state.languages.map((result,i,arr)=>{
                     let lan=arr[i];
-                    return lan.checked?<PopularTab key={i} tabLabel={lan.name}>{lan.name}</PopularTab>:null;
+                    return lan.checked?<PopularTab key={i} tabLabel={lan.name} {...this.props}>{lan.name}</PopularTab>:null;
                 })}
             </ScrollableTabView>:null;
         return (<View style={styles.container}>
@@ -58,7 +59,7 @@ export default class PopularPage extends Component{
                     backgroundColor:'#EE6363'
                 }}
                 statusBar={{
-                    backgroundColor:'#2196F3'
+                    backgroundColor:'#EE6363'
                 }}
             ></NavigationBar>
             {content}
@@ -116,8 +117,21 @@ class PopularTab extends Component{
     genFetchUrl(key) {
         return URL + key + QUERY_STR;
     }
+    onSelect = (item) => {
+        this.props.navigator.push({
+            component: RepositoryDetail,
+            params:{
+                item:item,
+                ...this.props,
+            }
+        });
+    }
     renderRow(data){
-        return <RepositoryCell data={data}/>;
+        return <RepositoryCell
+            onSelect={(() => this.onSelect(data))}
+            id={data.id}
+            data={data}
+        />;
     }
     render(){
         return <View style={styles.container}>

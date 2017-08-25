@@ -13,6 +13,7 @@ export default class RepositoryCell extends Component {
     }
     render() {
         return <TouchableOpacity
+            onPress={this.props.onSelect}
             style={styles.container}
         >
             <View style={styles.cell_container}>
@@ -67,20 +68,20 @@ const styles = StyleSheet.create({
         borderRadius: 2
     },
     cell_container:{
-      backgroundColor:'white',
-      padding:10,
-      marginLeft:5,
-      marginRight:5,
-      borderWidth:0.5,
-      marginVertical:3,
-      borderRadius:5,
-      borderColor:'#ddd',
-      // ios阴影效果
-      shadowColor:'gray',
-      shadowOffset:{width:0.5,height:0.5},
-      shadowOpacity:0.4,
-      shadowRadius:1,
-      // android下阴影效果,5.0以上有效果
-      elevation:2
+        backgroundColor:'white',
+        padding:10,
+        marginLeft:5,
+        marginRight:5,
+        borderWidth:0.5,
+        marginVertical:3,
+        borderRadius:5,
+        borderColor:'#ddd',
+        // ios阴影效果
+        shadowColor:'gray',
+        shadowOffset:{width:0.5,height:0.5},
+        shadowOpacity:0.4,
+        shadowRadius:1,
+        // android下阴影效果,5.0以上有效果
+        elevation:2
     }
-})
+});

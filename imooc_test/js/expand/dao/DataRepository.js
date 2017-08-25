@@ -89,6 +89,7 @@ export default class DataRepository{
  * @returns {boolean}
  */
     checkData(longTime) {
+        return false;
         let cDate = new Date();
         let tDate = new Date();
         tDate.setTime(longTime);

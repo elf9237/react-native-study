@@ -5,8 +5,16 @@
  */
 import {
     AsyncStorage,
+    DeviceEventEmitter,
 } from 'react-native';
+import GitHubTrending from 'GitHubTrending';
+//设立 popular 和trending 模块标识
+export var FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'};
 export default class DataRepository{
+    constructor(flag) {
+        this.flag = flag;
+        if(flag === FLAG_STORAGE.flag_trending)this.trending = new GitHubTrending();
+    }
     fetchRespository(url) {
         return new Promise((resolve, reject) => {
             // 获取本地数据
@@ -45,6 +53,7 @@ export default class DataRepository{
                 if(!error) {
                     try{
                         resolve(JSON.parse(result));
+                        DeviceEventEmitter.emit('showToast', '获取本地数据');
                     }catch (e){
                         reject(e);
                     }
@@ -56,20 +65,36 @@ export default class DataRepository{
     }
     fetchNetRepository(url){
         return new Promise((resolve,reject)=>{
-            fetch(url)
-                .then(response=>response.json())  // 将文本解析为json
-                .then(result=>{
-                    if(!result) {
-                        reject(new Error('responseData is null'));
-                        return;
-                    }
-                    // console.log(result);
-                    resolve(result.items);
-                    this.saveRespository(url, result.items);
-                })
-                .catch(error=>{
-                    reject(error);
-                });
+            if(this.flag === FLAG_STORAGE.flag_trending) {
+                // trending 模块间接通过GithubTrending对象从github获取数据
+                this.trending.fetchTrending(url)
+                    .then(result => {
+                        if(!result){
+                            reject(new Error('responseData is null'));
+                            return;
+                        }
+                        this.saveRespository(url, result);
+                        resolve(result);
+                    });
+            } else {
+                // popular 模块直接从github API获取数据
+                fetch(url)
+                    .then(response=>response.json())  // 将文本解析为json
+                    .then(result=>{
+                        if(!result) {
+                            reject(new Error('responseData is null'));
+                            return;
+                        }
+                        // console.log(result);
+                        resolve(result.items);
+                        this.saveRespository(url, result.items);
+                        DeviceEventEmitter.emit('showToast', '获取网络数据');
+                    })
+                    .catch(error=>{
+                        reject(error);
+                    });
+            }
+            
         });
     }
 
@@ -89,7 +114,7 @@ export default class DataRepository{
  * @returns {boolean}
  */
     checkData(longTime) {
-        return false;
+        // return false;
         let cDate = new Date();
         let tDate = new Date();
         tDate.setTime(longTime);

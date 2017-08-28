@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import NavigationBar from '../common/NavigationBar';
-import DataRepository from '../expand/dao/DataRepository';
+import DataRepository, {FLAG_STORAGE} from '../expand/dao/DataRepository';
 import RepositoryCell from '../common/RepositoryCell';
 import LanguageDao,{FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
 import RepositoryDetail from './RepositoryDetail';
@@ -70,7 +70,7 @@ class PopularTab extends Component{
     constructor(props){
         super(props);
         // 类初始化后才能在自定义函数方法中调用
-        this.dataRepository=new DataRepository();
+        this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
         this.state={
             result:'',
             dataSource:new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),

@@ -17,6 +17,8 @@ import AsyncStorageTest from '../../AsyncStorageTest';
 import MyPage from './my/MyPage';
 import Toast,{DURATION} from 'react-native-easy-toast';
 import WebViewTest from '../../WebViewTest';
+// import TrendingTest from '../../TrendingTest';
+import TrendingPage from './trending/TrendingPage';
 export default class HomePage extends Component {
     constructor(props){
         super(props);
@@ -55,8 +57,10 @@ export default class HomePage extends Component {
                         renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_trending.png')} />}
                         renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'#2196F3'}]} source={require('../../res/images/ic_trending.png')} />}
                         onPress={() => this.setState({ selectedTab: 'tb_trending' })}>
-                        <AsyncStorageTest style={styles.page2}>
-                        </AsyncStorageTest>
+                        {/* <AsyncStorageTest style={styles.page2}>
+                        </AsyncStorageTest> */}
+                        {/* <TrendingTest /> */}
+                        <TrendingPage />
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'tb_favorite'}

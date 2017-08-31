@@ -34,54 +34,30 @@ export default class HomePage extends Component {
     componentWillUnmount() {
         this.listener && this.listener.remove();
     }
+    _renderTab = (Component, selectTab, title, renderIcon) => {
+        return (
+            <TabNavigator.Item
+            selected={this.state.selectedTab === selectTab}
+            selectedTitleStyle={{color:'#2196F3'}}
+            title={title}
+            renderIcon={() => <Image style={styles.image} source={renderIcon} />}
+            renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'#2196F3'}]} source={renderIcon} />}
+            // badgeText="3"
+            allowFontScaling={true}
+            onPress={() => this.setState({ selectedTab: selectTab })}>
+            <Component {...this.props}/>
+        </TabNavigator.Item>
+        )
+    }
     render() {
         return (
             <View style={styles.container}>
                 {/* 底部导航菜单的开发 */}
                 <TabNavigator>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'tb_popular'}
-                        selectedTitleStyle={{color:'#2196F3'}}
-                        title="最热"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_polular.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'#2196F3'}]} source={require('../../res/images/ic_polular.png')} />}
-                        badgeText="3"
-                        allowFontScaling={true}
-                        onPress={() => this.setState({ selectedTab: 'tb_popular' })}>
-                        <PopularPage {...this.props}/>
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'tb_trending'}
-                        selectedTitleStyle={{color:'#2196F3'}}
-                        title="趋势"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_trending.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'#2196F3'}]} source={require('../../res/images/ic_trending.png')} />}
-                        onPress={() => this.setState({ selectedTab: 'tb_trending' })}>
-                        {/* <AsyncStorageTest style={styles.page2}>
-                        </AsyncStorageTest> */}
-                        {/* <TrendingTest /> */}
-                        <TrendingPage />
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'tb_favorite'}
-                        selectedTitleStyle={{color:'#2196F3'}}
-                        title="收藏"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_polular.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'#2196F3'}]} source={require('../../res/images/ic_polular.png')} />}
-                        badgeText="1"
-                        onPress={() => this.setState({ selectedTab: 'tb_favorite' })}>
-                        <WebViewTest />
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'tb_my'}
-                        selectedTitleStyle={{color:'#2196F3'}}
-                        title="我的"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_trending.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'#2196F3'}]} source={require('../../res/images/ic_trending.png')} />}
-                        onPress={() => this.setState({ selectedTab: 'tb_my' })}>
-                        <MyPage {...this.props}>
-                        </MyPage>
-                    </TabNavigator.Item>
+                    { this._renderTab(PopularPage, 'tb_popular', '最热', require('../../res/images/ic_polular.png') )}
+                    { this._renderTab(TrendingPage, 'tb_trending', '趋势', require('../../res/images/ic_trending.png') )}
+                    { this._renderTab(WebViewTest, 'tb_favorite', '收藏', require('../../res/images/ic_favorite.png') )}
+                    { this._renderTab(MyPage, 'tb_my', '我的', require('../../res/images/ic_my.png') )}
                 </TabNavigator>
                 <Toast ref={toast => this.toast = toast} />
             </View>

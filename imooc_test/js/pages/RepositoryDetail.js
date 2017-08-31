@@ -12,12 +12,13 @@ import {
 import NavigationBar from '../common/NavigationBar';
 import ViewUtils from '../util/ViewUtils';
 const URL = 'http://www.imooc.com';
+const TRENDING_URL = 'https://github.com/';
 export default class RepositoryDetail extends Component{
     // 初始化构造函数
     constructor(props){
         super(props);
-        this.url = this.props.item.html_url;
-        const title = this.props.item.full_name;
+        this.url = this.props.item.html_url ? this.props.item.html_url : TRENDING_URL + this.props.item.fullName;
+        const title = this.props.item.full_name ? this.props.item.full_name : this.props.item.fullName;
         console.log(this.props.item);
         this.state={
             url:this.url,

@@ -28,7 +28,7 @@ export default class SortKeyPage extends Component{
         };
     }
     componentDidMount(){
-        this.languageDao=new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.languageDao=new LanguageDao(this.props.flag);
         this.loadData();
     }
     loadData(){
@@ -87,6 +87,7 @@ export default class SortKeyPage extends Component{
         }
     }
     render(){
+        let title = this.props.flag === FLAG_LANGUAGE.flag_langage ? '语言排序' : '标签排序';
         let rightButton=<TouchableOpacity
             onPress={()=>this.onSave()}
         >
@@ -98,7 +99,7 @@ export default class SortKeyPage extends Component{
         </TouchableOpacity>;
         return (<View style={styles.container}>
             <NavigationBar
-                title={'我的'}
+                title={title}
                 style={{
                     backgroundColor:'#EE6363'
                 }}

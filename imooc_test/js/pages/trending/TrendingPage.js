@@ -51,21 +51,21 @@ export default class TrendingPage extends Component{
     }
     showPopover() {
         this.refs.button.measure((ox, oy, width, height, px, py) => {
-          this.setState({
-            isVisible: true,
-            buttonRect: {x: px, y: py, width: width, height: height}
-          });
+            this.setState({
+                isVisible: true,
+                buttonRect: {x: px, y: py, width: width, height: height}
+            });
         });
-      }
+    }
     
-      closePopover() {
+    closePopover() {
         this.setState({isVisible: false});
-      }
+    }
       _onSelectTimeSpan = (timeSpan) => {
-        this.setState({
-            timeSpan,
-            isVisible: false,
-        })
+          this.setState({
+              timeSpan,
+              isVisible: false,
+          });
       }
     _renderTitleView = () => {
         return (<View>
@@ -96,35 +96,35 @@ export default class TrendingPage extends Component{
                 })}
             </ScrollableTabView>:null;
         const timeSpanView = <Popover
-                    isVisible={this.state.isVisible}
-                    fromRect={this.state.buttonRect}
-                    onClose={() => this.closePopover()}
-                    placement='bottom'
-                    contentStyle={{
-                        backgroundColor: '#343434', opacity: .8
-                    }}
+            isVisible={this.state.isVisible}
+            fromRect={this.state.buttonRect}
+            onClose={() => this.closePopover()}
+            placement='bottom'
+            contentStyle={{
+                backgroundColor: '#343434', opacity: .8
+            }}
+        >
+            {
+                timeSpanTextArray.map((result, i, arr) => {
+                    return (<TouchableOpacity 
+                        key={i}
+                        underlayColor='transparent'
+                        onPress={() => this._onSelectTimeSpan(arr[i])}
                     >
-                    {
-                        timeSpanTextArray.map((result, i, arr) => {
-                            return (<TouchableOpacity 
-                                key={i}
-                                underlayColor='transparent'
-                                onPress={() => this._onSelectTimeSpan(arr[i])}
-                            >
-                                        <Text style={{fontSize: 18, fontWeight: '400', color: '#fff', padding: 8}}>{arr[i].showText}</Text>
-                                </TouchableOpacity>)
-                        })
-                    }
-                </Popover>;
+                        <Text style={{fontSize: 18, fontWeight: '400', color: '#fff', padding: 8}}>{arr[i].showText}</Text>
+                    </TouchableOpacity>);
+                })
+            }
+        </Popover>;
         const navigationBar = <NavigationBar
-        titleView={this._renderTitleView()}
-        style={{
-            backgroundColor:'#EE6363'
-        }}
-        statusBar={{
-            backgroundColor:'#EE6363'
-        }}
-    ></NavigationBar>
+            titleView={this._renderTitleView()}
+            style={{
+                backgroundColor:'#EE6363'
+            }}
+            statusBar={{
+                backgroundColor:'#EE6363'
+            }}
+        ></NavigationBar>;
         return (<View style={styles.container}>
             {navigationBar}
             {content}

@@ -17,7 +17,7 @@ import ArrayUtils from '../../util/ArrayUtils';
 export default class CustomKeyPage extends Component{
     constructor(props){
         super(props);
-        this.languageDao=new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.languageDao=new LanguageDao(this.props.flag);
         this.changeValues=[];
         this.isRemoveKey = this.props.isRemoveKey?true:false;
         this.state={
@@ -109,7 +109,8 @@ export default class CustomKeyPage extends Component{
         />;
     }
     render(){
-        const title = this.isRemoveKey ? '标签移除' : '自定义标签';
+        let title = this.isRemoveKey ? '标签移除' : '自定义标签';
+        title = this.props.flag === FLAG_LANGUAGE.flag_langage ? '自定义语言' : title;
         const rightButtonTitle = this.isRemoveKey ? '移除' : '保存';
         let rightButton=<TouchableOpacity
             onPress={()=>this.onSave()}

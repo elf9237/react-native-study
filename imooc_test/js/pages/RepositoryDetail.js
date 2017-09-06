@@ -18,8 +18,8 @@ export default class RepositoryDetail extends Component{
     constructor(props){
         super(props);
         //console.log(this.props.projectModel);
-        this.url = this.props.projectModel.item.html_url ? this.props.projectModel.item.html_url : TRENDING_URL + this.props.item.fullName;
-        const title = this.props.projectModel.item.full_name ? this.props.projectModel.item.full_name : this.props.item.fullName;
+        this.url = this.props.projectModel.item.html_url ? this.props.projectModel.item.html_url : TRENDING_URL + this.props.projectModel.item.fullName;
+        const title = this.props.projectModel.item.full_name ? this.props.projectModel.item.full_name : this.props.projectModel.item.fullName;
         // console.log(this.props.item);
         this.state={
             url:this.url,
@@ -53,7 +53,7 @@ export default class RepositoryDetail extends Component{
                 <NavigationBar 
                     title={this.state.title}
                     statusBar={{
-                        backgroundColor:'#EE6363'
+                        backgroundColor:'#2196F3'
                     }}
                     style={{
                         backgroundColor:'#EE6363'

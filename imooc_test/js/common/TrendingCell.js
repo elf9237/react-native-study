@@ -11,10 +11,40 @@ import HTMLView from 'react-native-htmlview';
 export default class TrendingCell extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isFavorite: this.props.projectModel.isFavorite,
+            favoriteIcon: this.props.projectModel.isFavorite ? 
+                require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png')
+        };
+    }
+    componentWillReceiveProps(nextProps) {
+        this._setFavoriteState(nextProps.projectModel.isFavorite);
+    }
+    _setFavoriteState = (isFavorite) => {
+        this.setState({
+            isFavorite,
+            favoriteIcon: isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+        });
+    }
+    _onPressFavorite = () => {
+        this._setFavoriteState(!this.state.isFavorite);
+        this.props.onFavorite(this.props.projectModel.item, !this.state.isFavorite);
     }
     render() {
-        let data = this.props.data;
+        let data = this.props.projectModel.item;
         let description = `<p>`+data.description+`</p>`;
+        let favoriteButton = <TouchableOpacity 
+            onPress={() => this._onPressFavorite()}
+        >
+            <Image 
+                source={this.state.favoriteIcon} 
+                style={{
+                    width: 22,
+                    height: 22,
+                    tintColor: '#2196f3'
+                }}
+            />
+        </TouchableOpacity>;
         return <TouchableOpacity
             onPress={this.props.onSelect}
             style={styles.container}
@@ -50,15 +80,11 @@ export default class TrendingCell extends Component {
                                     marginLeft: 5,
                                 }}
                                 key={i}
-                                />
+                                />;
                             })
                         }
-                        
                     </View>
-                    <Image source={require('../../res/images/ic_star.png')} style={{
-                        width: 22,
-                        height: 22
-                    }}/>
+                    {favoriteButton}
                 </View>
             </View>
         </TouchableOpacity>;

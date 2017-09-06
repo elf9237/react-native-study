@@ -14,6 +14,8 @@ import NavigationBar from '../../common/NavigationBar';
 import DataRepository, {FLAG_STORAGE} from '../../expand/dao/DataRepository';
 import TrendingCell from '../../common/TrendingCell';
 import LanguageDao,{FLAG_LANGUAGE} from '../../expand/dao/LanguageDao';
+
+import TrendingTab from './TrendingTab';
 import RepositoryDetail from '../RepositoryDetail';
 import Popover from '../../common/Popover';
 import TimeSpan from '../../model/TimeSpan';
@@ -132,111 +134,6 @@ export default class TrendingPage extends Component{
         </View>);
     }
 }
-class TrendingTab extends Component{
-    constructor(props){
-        super(props);
-        // 类初始化后才能在自定义函数方法中调用
-        this.dataRepository=new DataRepository(FLAG_STORAGE.flag_trending);
-        this.state={
-            result:'',
-            dataSource:new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),
-            isLoading:true,
-        };
-    }
-    componentDidMount(){
-        this.loadData(this.props.timeSpan, true);
-    }
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.timeSpan !== this.props.timeSpan) {
-            this.loadData(nextProps.timeSpan, true);
-        }
-    }
-    loadData(timeSpan, isRefresh){
-        this.setState({
-            isLoading:true
-        });
-        let url = this.genFetchUrl(timeSpan, this.props.tabLabel);
-        console.log('url');
-        console.log(url);
-        this.dataRepository
-            .fetchRespository(url)
-            .then(result=>{
-                const items = result && result.items ? result.items: result ? result : [];
-                this.setState({
-                    dataSource:this.state.dataSource.cloneWithRows(items),
-                    isLoading:false,
-                });
-                if (result && result.update_date && !this.dataRepository.checkData(result.update_date)) {
-                    DeviceEventEmitter.emit('showToast', '数据已过时');
-                    return this.dataRepository.fetchNetRepository(url);
-                } else {
-                    DeviceEventEmitter.emit('showToast', '获取缓存数据');
-                }
-            })
-            .then(items => {
-                if(!items || items.length === 0)return;
-                this.setState({
-                    dataSource:this.state.dataSource.cloneWithRows(items),
-                    isLoading:false,
-                });
-                DeviceEventEmitter.emit('showToast', '获取网络数据');
-            })
-            .catch(error=>{
-                this.setState({
-                    result:JSON.stringify(error)  //将对象解析成字符串 JSON.parse() 和 JSON.stringify()
-                });
-            });
-    }
-    _updateState = (dic) => {
-        if(!this) return;
-        this.setState({dic});
-    }
-    genFetchUrl(timeSpan, category) {
-        return API_URL+category+'?'+timeSpan.searchText;
-    }
-    onSelect = (item) => {
-        this.props.navigator.push({
-            component: RepositoryDetail,
-            params:{
-                item:item,
-                ...this.props,
-            }
-        });
-    }
-    onRefresh = () => {
-        this.loadData(this.props.timeSpan);
-    }
-    renderRow(data){
-        return <TrendingCell
-            onSelect={(() => this.onSelect(data))}
-            id={data.id}
-            data={data}
-        />;
-    }
-    render(){
-        // console.log(this.state.dataSource);
-        return <View style={styles.container}>
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={(data)=>this.renderRow(data)}
-                enableEmptySections = {true}
-                refreshControl={
-                    <RefreshControl     // 为其添加下拉刷新的功能
-                        refreshing={this.state.isLoading}  // 是否应该在刷新时显示指示器
-                        onRefresh={()=>this.onRefresh()}
-                        initialListSize={3}
-                        // android刷新按钮颜色
-                        colors={['#2196F3']}
-                        // ios刷新按钮颜色
-                        tintColor={'#2196F3'}
-                        title={'Loading...'}
-                        titleColor={'#2196F3'}
-                    />}
-            />
-        </View>;
-    }
-}
-
 const styles=StyleSheet.create({
     container:{
         flex:1,

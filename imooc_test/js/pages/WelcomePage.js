@@ -26,7 +26,7 @@ export default class WelcomePage extends Component{
                     backgroundColor:'#2196F3'
                 }}
                 statusBar={{
-                    backgroundColor:'#4b9dfd'
+                    backgroundColor:'#2196F3'
                 }}
             />
             <Text>欢迎</Text>

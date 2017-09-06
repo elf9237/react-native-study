@@ -95,4 +95,4 @@ const styles=StyleSheet.create({
     // IOS可自定义状态栏高度，ANDROID状态栏为默认，不可自定义
     height:Platform.os === 'ios'?STATUS_BAR_HEIGHT:0,
   }
-})
+});

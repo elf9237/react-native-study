@@ -43,14 +43,14 @@ export default class TrendingCell extends Component {
                         {
                             data.contributors.map((result, i , arr) => {
                                 return <Image source={{
-                            uri: arr[i]
-                        }} style={{
-                            width: 22,
-                            height: 22,
-                            marginLeft: 5,
-                        }}
-                        key={i}
-                        />
+                                    uri: arr[i]
+                                }} style={{
+                                    width: 22,
+                                    height: 22,
+                                    marginLeft: 5,
+                                }}
+                                key={i}
+                                />
                             })
                         }
                         

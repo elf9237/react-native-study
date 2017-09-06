@@ -15,8 +15,8 @@ import DataRepository, {FLAG_STORAGE} from '../../expand/dao/DataRepository';
 import TrendingCell from '../../common/TrendingCell';
 import LanguageDao,{FLAG_LANGUAGE} from '../../expand/dao/LanguageDao';
 import RepositoryDetail from '../RepositoryDetail';
-import Popover from '../../common/Popover'
-import TimeSpan from '../../model/TimeSpan'
+import Popover from '../../common/Popover';
+import TimeSpan from '../../model/TimeSpan';
 
 const API_URL='https://github.com/trending/';
 var timeSpanTextArray = [
@@ -122,7 +122,7 @@ export default class TrendingPage extends Component{
                 backgroundColor:'#EE6363'
             }}
             statusBar={{
-                backgroundColor:'#EE6363'
+                backgroundColor:'#2196F3'
             }}
         ></NavigationBar>;
         return (<View style={styles.container}>

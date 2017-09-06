@@ -5,16 +5,26 @@ import {
     ListView,
     RefreshControl,
     DeviceEventEmitter,
+    Text,
+    FlatList,
 } from 'react-native';
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import NavigationBar from '../common/NavigationBar';
 import DataRepository, {FLAG_STORAGE} from '../expand/dao/DataRepository';
 import RepositoryCell from '../common/RepositoryCell';
 import LanguageDao,{FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
+import FavoriteDao from '../expand/dao/FavoriteDao';
+import Utils from '../util/Utils';
+import PopularTab from './PopularTab';
 import RepositoryDetail from './RepositoryDetail';
+import ProjectModel from '../model/ProjectModel';
+import PropTypes from 'prop-types';
 
 const URL='https://api.github.com/search/repositories?q=';
 const QUERY_STR='&page,per_page,sort,order';
+
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
+
 export default class PopularPage extends Component{
     constructor(props){
         super(props);
@@ -59,99 +69,11 @@ export default class PopularPage extends Component{
                     backgroundColor:'#EE6363'
                 }}
                 statusBar={{
-                    backgroundColor:'#EE6363'
+                    backgroundColor:'#2196F3'
                 }}
             ></NavigationBar>
             {content}
         </View>);
-    }
-}
-class PopularTab extends Component{
-    constructor(props){
-        super(props);
-        // 类初始化后才能在自定义函数方法中调用
-        this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
-        this.state={
-            result:'',
-            dataSource:new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),
-            isLoading:true,
-        };
-    }
-    componentDidMount(){
-        this.loadData();
-    }
-    loadData(){
-        this.setState({
-            isLoading:true
-        });
-        let url = this.genFetchUrl(this.props.tabLabel);
-        this.dataRepository
-            .fetchRespository(url)
-            .then(result=>{
-                const items = result && result.items ? result.items: result ? result : [];
-                this.setState({
-                    dataSource:this.state.dataSource.cloneWithRows(items),
-                    isLoading:false,
-                });
-                if (result && result.update_date && !this.dataRepository.checkData(result.update_date)) {
-                    DeviceEventEmitter.emit('showToast', '数据已过时');
-                    return this.dataRepository.fetchNetRepository(url);
-                } else {
-                    DeviceEventEmitter.emit('showToast', '获取缓存数据');
-                }
-            })
-            .then(items => {
-                if(!items || items.length === 0)return;
-                this.setState({
-                    dataSource:this.state.dataSource.cloneWithRows(items),
-                    isLoading:false,
-                });
-                DeviceEventEmitter.emit('showToast', '获取网络数据');
-            })
-            .catch(error=>{
-                this.setState({
-                    result:JSON.stringify(error)  //将对象解析成字符串 JSON.parse() 和 JSON.stringify()
-                });
-            });
-    }
-    genFetchUrl(key) {
-        return URL + key + QUERY_STR;
-    }
-    onSelect = (item) => {
-        this.props.navigator.push({
-            component: RepositoryDetail,
-            params:{
-                item:item,
-                ...this.props,
-            }
-        });
-    }
-    renderRow(data){
-        return <RepositoryCell
-            onSelect={(() => this.onSelect(data))}
-            id={data.id}
-            data={data}
-        />;
-    }
-    render(){
-        return <View style={styles.container}>
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={(data)=>this.renderRow(data)}
-                refreshControl={
-                    <RefreshControl     // 为其添加下拉刷新的功能
-                        refreshing={this.state.isLoading}  // 是否应该在刷新时显示指示器
-                        onRefresh={()=>this.loadData()}
-                        initialListSize={3}
-                        // android刷新按钮颜色
-                        colors={['#2196F3']}
-                        // ios刷新按钮颜色
-                        tintColor={'#2196F3'}
-                        title={'Loading...'}
-                        titleColor={'#2196F3'}
-                    />}
-            />
-        </View>;
     }
 }
 

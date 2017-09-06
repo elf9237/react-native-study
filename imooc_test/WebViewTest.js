@@ -45,28 +45,28 @@ export default class WebViewTest extends Component{
             <View style={styles.container}>
                 <NavigationBar title={'WebView使用'}
                     statusBar={{
-                        backgroundColor:'#EE6363'
+                        backgroundColor:'#2196F3'
                     }}
                     style={{
-                        backgroundColor:'#EE6363'
+                        backgroundColor:'#2196F3'
                     }}
                 />
                 <View style={styles.row}>
                     <Text 
-                    style={styles.tips}
-                    onPress={() => {
-                        this.goBack();
-                    }}>返回</Text>
+                        style={styles.tips}
+                        onPress={() => {
+                            this.goBack();
+                        }}>返回</Text>
                     <TextInput 
                         style={styles.TextInput}
                         defaultValue={URL}
                         onChangeText={text => this.text=text}
                     />
                     <Text
-                    style={styles.tips}
-                    onPress={() => {
-                        this.go();
-                    }}>前往</Text>
+                        style={styles.tips}
+                        onPress={() => {
+                            this.go();
+                        }}>前往</Text>
                 </View>
                 <WebView
                     ref={webView => this.webView = webView}

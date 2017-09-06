@@ -45,7 +45,7 @@ export default class PopularTab extends React.Component{
         // console.log(this.state.dataSource);
         this.loadData();
     }
- 
+    
     /**
      * 更新Project Item Favorite的状态
      */
@@ -140,11 +140,12 @@ export default class PopularTab extends React.Component{
             favoriteDao.removeFavoriteItem(item.id.toString());
         }
     }
-    onSelect = (item) => {
+    onSelectRepository = (projectModel) => {
         this.props.navigator.push({
+            title: projectModel.item.full_name,
             component: RepositoryDetail,
             params:{
-                item:item,
+                projectModel:projectModel,
                 ...this.props,
             }
         });
@@ -152,7 +153,7 @@ export default class PopularTab extends React.Component{
     renderRow = (projectModel) => {
         return (
             <RepositoryCell
-                onSelect={(() => this.onSelect(projectModel))}
+                onSelect={(() => this.onSelectRepository(projectModel))}
                 key={projectModel.item.id}
                 projectModel={projectModel}
                 onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}

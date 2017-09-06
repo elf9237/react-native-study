@@ -17,9 +17,10 @@ export default class RepositoryDetail extends Component{
     // 初始化构造函数
     constructor(props){
         super(props);
-        this.url = this.props.item.html_url ? this.props.item.html_url : TRENDING_URL + this.props.item.fullName;
-        const title = this.props.item.full_name ? this.props.item.full_name : this.props.item.fullName;
-        console.log(this.props.item);
+        //console.log(this.props.projectModel);
+        this.url = this.props.projectModel.item.html_url ? this.props.projectModel.item.html_url : TRENDING_URL + this.props.item.fullName;
+        const title = this.props.projectModel.item.full_name ? this.props.projectModel.item.full_name : this.props.item.fullName;
+        // console.log(this.props.item);
         this.state={
             url:this.url,
             title,

@@ -1,6 +1,8 @@
+npm install --save react-native-calendars
+
 // 卸载组件及第三方依赖包
-react-native unlink react-native-video
-npm uninstall react-native-video --save
+react-native unlink react-native-calendar
+npm uninstall react-native-calendar --save
 
 esline
 npm i -D eslint babel-eslint eslint-plugin-react
@@ -9,6 +11,7 @@ react-native-tab-navigator
 
 // 弹出框提示组件
 react-native-easy-toast
+react-native-root-toast
 
 // tab切换组件
 react-native-scrollable-tab-view
@@ -25,11 +28,20 @@ react-native-sortable-listview
 // 复选框
 react-native-check-box
 
+// 单选框
+react-native-flexi-radio-button
+
 // 第三方类型检查
 prop-types
 
 // 提示框 popover必须放在视图根目录下
 react-native-popover   
+
+//时间选择组件
+react-native-datepicker
+react-native-calendar
+
+react-native-display
 
 // 用法：
 Greeting.propTypes = {

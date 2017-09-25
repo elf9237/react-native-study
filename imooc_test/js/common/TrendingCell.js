@@ -18,9 +18,12 @@ export default class TrendingCell extends Component {
         };
     }
     componentWillReceiveProps(nextProps) {
+        console.log('nextProps.projectModel');
+        console.log(nextProps.projectModel);
         this._setFavoriteState(nextProps.projectModel.isFavorite);
     }
     _setFavoriteState = (isFavorite) => {
+        // this.props.projectModel.isFavorite = isFavorite;
         this.setState({
             isFavorite,
             favoriteIcon: isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),

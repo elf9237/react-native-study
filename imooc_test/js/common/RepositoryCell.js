@@ -17,6 +17,7 @@ export default class RepositoryCell extends Component {
         };
     }
     componentWillReceiveProps(nextProps) {
+
         this._setFavoriteState(nextProps.projectModel.isFavorite);
     }
     _setFavoriteState = (isFavorite) => {

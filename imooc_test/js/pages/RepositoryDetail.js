@@ -13,6 +13,9 @@ import NavigationBar from '../common/NavigationBar';
 import ViewUtils from '../util/ViewUtils';
 const URL = 'http://www.imooc.com';
 const TRENDING_URL = 'https://github.com/';
+
+import FavoriteDao from '../expand/dao/FavoriteDao';
+
 export default class RepositoryDetail extends Component{
     // 初始化构造函数
     constructor(props){
@@ -20,11 +23,15 @@ export default class RepositoryDetail extends Component{
         //console.log(this.props.projectModel);
         this.url = this.props.projectModel.item.html_url ? this.props.projectModel.item.html_url : TRENDING_URL + this.props.projectModel.item.fullName;
         const title = this.props.projectModel.item.full_name ? this.props.projectModel.item.full_name : this.props.projectModel.item.fullName;
-        // console.log(this.props.item);
+        this.favoriteDao = new FavoriteDao(this.props.flag);
+        // console.log(this.props.projectModel);
         this.state={
             url:this.url,
             title,
             canGoBack: false,
+            isFavorite: this.props.projectModel.isFavorite,
+            favoriteIcon: this.props.projectModel.isFavorite ? 
+                require('../../res/images/ic_star.png') : require('../../res/images/ic_star_navbar.png')
         };
     }
     onBack = ()=>{
@@ -45,7 +52,36 @@ export default class RepositoryDetail extends Component{
         this.setState({
             canGoBack: e.canGoBack,
             // title: e.title,
-        })
+        });
+    }
+    _setFavoriteState = (isFavorite) => {
+        this.props.projectModel.isFavorite = isFavorite;
+        this.setState({
+            isFavorite,
+            favoriteIcon: isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_star_navbar.png'),
+        });
+    }
+    _onRightButonClick = () => {
+        const projectModel = this.props.projectModel;
+        this._setFavoriteState(projectModel.isFavorite = !projectModel.isFavorite);
+        var key = projectModel.item.fullName ? projectModel.item.fullName : projectModel.item.id.toString();
+        if(projectModel.isFavorite) {
+            this.favoriteDao.saveFavoriteItem(key, JSON.stringify(projectModel.item));
+        }else{
+            this.favoriteDao.removeFavoriteItem(key);
+        }
+    }
+    _renderRightButon = () => {
+        return (
+            <TouchableOpacity 
+                onPress={()=>this._onRightButonClick()}
+            >
+                <Image 
+                    style={{width: 20, height: 20, marginRight: 10}}
+                    source={this.state.favoriteIcon}
+                />
+            </TouchableOpacity>
+        );
     }
     render(){
         return (
@@ -59,6 +95,7 @@ export default class RepositoryDetail extends Component{
                         backgroundColor:'#EE6363'
                     }}
                     leftButton={ViewUtils.getLeftButton(() => this.onBack())}
+                    rightButton={this._renderRightButon()}
                 />
                 {/* <View style={styles.row}>
                     <Text 

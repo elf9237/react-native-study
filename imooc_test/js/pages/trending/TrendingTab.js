@@ -46,6 +46,7 @@ export default class TrendingTab extends Component{
         this.loadData(this.props.timeSpan, true);
     }
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if(nextProps.timeSpan !== this.props.timeSpan) {
             this.loadData(nextProps.timeSpan, true);
         }
@@ -66,7 +67,7 @@ export default class TrendingTab extends Component{
                 //     isLoading:false,
                 // });
                 this._getFavoriteKeys();
-                if (result && result.update_date && !dataRepository.checkData(result.update_date)) {
+                if (!this.items|| isRefresh && result && result.update_date && !dataRepository.checkData(result.update_date)) {
                     DeviceEventEmitter.emit('showToast', '数据已过时');
                     return dataRepository.fetchNetRepository(url);
                 } else {
@@ -84,7 +85,9 @@ export default class TrendingTab extends Component{
                 DeviceEventEmitter.emit('showToast', '获取网络数据');
             })
             .catch(error=>{
+                console.log(error);
                 this.setState({
+                    isLoading: false,
                     result:JSON.stringify(error)  //将对象解析成字符串 JSON.parse() 和 JSON.stringify()
                 });
             });
@@ -92,6 +95,7 @@ export default class TrendingTab extends Component{
     _getFavoriteKeys = () => {
         favoriteDao.getFavoriteKeys()
             .then(keys => {
+                // console.log(keys);
                 if(keys){
                     this.setState({favoriteKeys:keys});
                 }
@@ -153,12 +157,14 @@ export default class TrendingTab extends Component{
         this.loadData(this.props.timeSpan);
     }
     renderRow(projectModel){
-        return <TrendingCell
-            onSelect={(() => this.onSelectRepository(projectModel))}
-            key={projectModel.item.fullName}
-            projectModel={projectModel}
-            onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}
-        />;
+        return (
+            <TrendingCell
+                onSelect={() => this.onSelectRepository(projectModel)}
+                key={projectModel.item.fullName}
+                projectModel={projectModel}
+                onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}
+            />
+        );
     }
     render(){
         // console.log(this.state.dataSource);

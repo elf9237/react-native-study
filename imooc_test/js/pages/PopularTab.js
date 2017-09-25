@@ -45,13 +45,17 @@ export default class PopularTab extends React.Component{
         // console.log(this.state.dataSource);
         this.loadData();
     }
-    
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+        // this.loadData();
+    }
     /**
      * 更新Project Item Favorite的状态
      */
     _flushFavoriteState = () => {
         let projectModels = [];
         let items = this.items;
+        // console.log(this.state.favoriteKeys);
         for(var i =0, len = items.length; i< len; i++) {
             projectModels.push(new ProjectModel(items[i], Utils.checkFavorite(items[i], this.state.favoriteKeys)));
         }
@@ -75,6 +79,7 @@ export default class PopularTab extends React.Component{
         favoriteDao.getFavoriteKeys()
             .then(keys => {
                 if(keys){
+                    // console.log(keys);
                     this.setState({favoriteKeys:keys});
                 }
                 this._flushFavoriteState();
@@ -134,6 +139,7 @@ export default class PopularTab extends React.Component{
      */
 
     _onFavorite = (item, isFavorite) => {
+        // console.log(isFavorite);
         if(isFavorite) {
             favoriteDao.saveFavoriteItem(item.id.toString(), JSON.stringify(item));
         }else{
@@ -141,11 +147,14 @@ export default class PopularTab extends React.Component{
         }
     }
     onSelectRepository = (projectModel) => {
+        var item = projectModel.item;
         this.props.navigator.push({
-            title: projectModel.item.full_name,
+            title: item.full_name,
             component: RepositoryDetail,
             params:{
                 projectModel:projectModel,
+                parentComponent: this,
+                flag:FLAG_STORAGE.flag_popular,
                 ...this.props,
             }
         });
@@ -153,13 +162,13 @@ export default class PopularTab extends React.Component{
     renderRow = (projectModel) => {
         return (
             <RepositoryCell
-                onSelect={(() => this.onSelectRepository(projectModel))}
+                onSelect={() => this.onSelectRepository(projectModel)}
                 key={projectModel.item.id}
                 projectModel={projectModel}
                 onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}
             />
         );
-    };
+    }
 
     // _keyExtractor = (item, index) => item.id;
 

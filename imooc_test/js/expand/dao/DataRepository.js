@@ -97,7 +97,12 @@ export default class DataRepository{
             
         });
     }
-
+    /**
+     * 数据重新封装  数据离线存储
+     * @param {*} url 
+     * @param {*} items 
+     * @param {*} callBack 
+     */
     saveRespository(url, items, callBack) {
         if(!url || !items) return;
         let wrapData = {

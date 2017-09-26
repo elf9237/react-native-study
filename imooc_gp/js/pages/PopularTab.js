@@ -46,8 +46,8 @@ export default class PopularTab extends React.Component{
         this.loadData();
     }
     componentWillReceiveProps(nextProps) {
+        console.log('PopularTab');
         console.log(nextProps);
-        // this.loadData();
     }
     /**
      * 更新Project Item Favorite的状态
@@ -139,7 +139,7 @@ export default class PopularTab extends React.Component{
      */
 
     _onFavorite = (item, isFavorite) => {
-        // console.log(isFavorite);
+        console.log(isFavorite);
         if(isFavorite) {
             favoriteDao.saveFavoriteItem(item.id.toString(), JSON.stringify(item));
         }else{

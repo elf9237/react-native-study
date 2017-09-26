@@ -50,7 +50,6 @@ export default class FavoriteDao{
     updateFavoriteKeys(key, isAdd) {
         AsyncStorage.getItem(this.favoriteKey, (error, result) => {
             if(!error) {
-                // console.log(result);
                 var favoriteKeys = [];
                 if(result) {
                     favoriteKeys = JSON.parse(result);

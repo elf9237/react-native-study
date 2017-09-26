@@ -154,7 +154,7 @@ export default class TrendingTab extends Component{
         });
     }
     onRefresh = () => {
-        this.loadData(this.props.timeSpan);
+        this.loadData(this.props.timeSpan, true);
     }
     renderRow(projectModel){
         return (

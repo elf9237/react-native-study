@@ -142,9 +142,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     TextInput: {
-       height: 40,
-       flex: 1,
-       borderWidth: 1,
-       margin: 2, 
+        height: 40,
+        flex: 1,
+        borderWidth: 1,
+        margin: 2, 
     }
 });

@@ -19,7 +19,7 @@ import Utils from '../../util/Utils';
 
 import RepositoryDetail from '../RepositoryDetail';
 import ProjectModel from '../../model/ProjectModel';
-import PropTypes from 'prop-types';
+import ArrayUtils from '../../util/ArrayUtils';
 
 
 
@@ -30,6 +30,7 @@ export default class FavoriteTab extends React.Component{
         this.favoriteDao = new FavoriteDao(this.props.flag);
         // 类初始化后才能在自定义函数方法中调用
         this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
+        this.unFavoriteItems = [];
         this.state={
             result:'',
             dataSource:new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),
@@ -39,17 +40,19 @@ export default class FavoriteTab extends React.Component{
     }
     componentDidMount(){
         // console.log(this.state.dataSource);
-        this.loadData();
+        this.loadData(true);
     }
     componentWillReceiveProps(nextProps) {
-        this.loadData();
+        this.loadData(false);
         console.log(nextProps);
        
     }
-    loadData(){
-        this.setState({
-            isLoading:true
-        });
+    loadData(isShowLoading){
+        if(isShowLoading){
+            this.setState({
+                isLoading:true
+            });
+        }
         this.favoriteDao.getAllItems()
             .then(items => {
                 var resultData = [];
@@ -97,7 +100,14 @@ export default class FavoriteTab extends React.Component{
         }else{
             this.favoriteDao.removeFavoriteItem(key);
         }
-        //this._getFavoriteKeys();
+        ArrayUtils.updataArray(this.unFavoriteItems, item);
+        if(this.unFavoriteItems.length > 0) {
+            if(this.props.flag === FLAG_STORAGE.flag_popular){
+                DeviceEventEmitter.emit('favoriteChanged_popular');
+            }else{
+                DeviceEventEmitter.emit('favoriteChanged_trending');
+            }
+        }
     }
   
     renderRow = (projectModel) => {

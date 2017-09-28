@@ -30,6 +30,7 @@ export default class PopularTab extends React.Component{
         super(props);
         // 类初始化后才能在自定义函数方法中调用
         this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
+        this.isFavoriteChanged = false; //初始化收藏状态
         this.state={
             result:'',
             dataSource:new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),
@@ -44,11 +45,21 @@ export default class PopularTab extends React.Component{
     componentDidMount(){
         // console.log(this.state.dataSource);
         this.loadData();
+        this.listener = DeviceEventEmitter.addListener('favoriteChanged_popular', ()=>{
+            this.isFavoriteChanged = true;
+        });
     }
     componentWillReceiveProps(nextProps) {
-        // console.log('PopularTab');
-        // console.log(nextProps);
-        this._getFavoriteKeys();
+        if(this.isFavoriteChanged) {
+            this.isFavoriteChanged = false;
+            this._getFavoriteKeys();
+        }
+    }
+
+    componentWillUnmount() {
+        if(this.listener){
+            this.listener.remove();  //组件卸载的时候移除监听器
+        }
     }
     /**
      * 更新Project Item Favorite的状态

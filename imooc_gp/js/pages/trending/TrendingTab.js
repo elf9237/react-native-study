@@ -44,11 +44,21 @@ export default class TrendingTab extends Component{
     }
     componentDidMount(){
         this.loadData(this.props.timeSpan, true);
+        this.listener = DeviceEventEmitter.addListener('favoriteChanged_trending', ()=>{
+            this.isFavoriteChanged = true;
+        });
     }
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if(nextProps.timeSpan !== this.props.timeSpan) {
             this.loadData(nextProps.timeSpan, true);
+        }else if(this.isFavoriteChanged) {
+            this.isFavoriteChanged = false;
+            this._getFavoriteKeys();
+        }
+    }
+    componentWillUnmount() {
+        if(this.listener){
+            this.listener.remove();  //组件卸载的时候移除监听器
         }
     }
     loadData(timeSpan, isRefresh){

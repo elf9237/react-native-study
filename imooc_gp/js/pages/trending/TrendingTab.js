@@ -28,7 +28,7 @@ var timeSpanTextArray = [
     new TimeSpan('本 周', 'since=weekly'),
     new TimeSpan('本 月', 'since=monthly'),
 ];
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
 const dataRepository=new DataRepository(FLAG_STORAGE.flag_trending);
 export default class TrendingTab extends Component{
     constructor(props){

@@ -123,3 +123,6 @@ _updateState= (dic) => {
   this.setState({dic});
 }
 
+// 封装相同类型数据方法
+// 在构造函数中传入参数做标识符
+

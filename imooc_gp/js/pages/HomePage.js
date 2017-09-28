@@ -19,6 +19,7 @@ import Toast,{DURATION} from 'react-native-easy-toast';
 import WebViewTest from '../../WebViewTest';
 // import TrendingTest from '../../TrendingTest';
 import TrendingPage from './trending/TrendingPage';
+import FavoritePage from './favorite/FavoritePage';
 export default class HomePage extends Component {
     constructor(props){
         super(props);
@@ -56,7 +57,7 @@ export default class HomePage extends Component {
                 <TabNavigator>
                     { this._renderTab(PopularPage, 'tb_popular', '最热', require('../../res/images/ic_polular.png') )}
                     { this._renderTab(TrendingPage, 'tb_trending', '趋势', require('../../res/images/ic_trending.png') )}
-                    { this._renderTab(WebViewTest, 'tb_favorite', '收藏', require('../../res/images/ic_favorite.png') )}
+                    { this._renderTab(FavoritePage, 'tb_favorite', '收藏', require('../../res/images/ic_favorite.png') )}
                     { this._renderTab(MyPage, 'tb_my', '我的', require('../../res/images/ic_my.png') )}
                 </TabNavigator>
                 <Toast ref={toast => this.toast = toast} />

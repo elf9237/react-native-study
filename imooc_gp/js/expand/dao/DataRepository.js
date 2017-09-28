@@ -8,8 +8,10 @@ import {
     DeviceEventEmitter,
 } from 'react-native';
 import GitHubTrending from 'GitHubTrending';
+
 //设立 popular 和trending 模块标识
 export var FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'};
+
 export default class DataRepository{
     constructor(flag) {
         this.flag = flag;

@@ -8,12 +8,14 @@ import {
     Text,
     View,
     Platform,
+    Linking,
 } from 'react-native';
 
 import ViewUtils from '../../util/ViewUtils';
 import { MORE_MENU } from '../../common/MoreMenu';
 import GlobalStyles from '../../../res/styles/GlobalStyles';
 import AboutCommon, {FLAG_ABOUT} from './AboutCommon';
+import WebViewPage from '../WebViewPage';
 
 export default class AboutPage extends Component {
     constructor(props) {
@@ -29,8 +31,19 @@ export default class AboutPage extends Component {
         case MORE_MENU.About_Auther:
             break;
         case MORE_MENU.WebSite:
+            TargetComponent = WebViewPage;
+            params.url = 'http://www.devio.org/io/GitHubPopular/';
+            params.title = 'GitHubPopular';
             break;
         case MORE_MENU.Feedback:
+            var url = 'mailto:565071984@qq.com';
+            Linking.canOpenURL(url).then(supported => {
+                if (!supported) {
+                    console.log('Can\'t handle url: ' + url);
+                } else {
+                    return Linking.openURL(url);
+                }
+            }).catch(err => console.error('An error occurred', err));
             break;
         }
         if(TargetComponent){

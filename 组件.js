@@ -41,6 +41,8 @@ react-native-popover
 react-native-datepicker
 react-native-calendar
 
+react-native-parallax-scroll-view
+
 react-native-display
 
 // 用法：
@@ -125,4 +127,9 @@ _updateState= (dic) => {
 
 // 封装相同类型数据方法
 // 在构造函数中传入参数做标识符
+
+
+// 代码复用
+// 1、继承   继承都是单继承
+// 2、组装   将公共代码抽离出来创建一个类，通过实例化来调用这个类
 

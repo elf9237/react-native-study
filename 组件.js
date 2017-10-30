@@ -45,6 +45,8 @@ react-native-parallax-scroll-view
 
 react-native-display
 
+
+
 // 用法：
 Greeting.propTypes = {
     name: PropTypes.string
@@ -133,3 +135,29 @@ _updateState= (dic) => {
 // 1、继承   继承都是单继承
 // 2、组装   将公共代码抽离出来创建一个类，通过实例化来调用这个类
 
+getNowDate() {
+  var date = new Date();
+  var seperator1 = '';
+  var month = date.getMonth() + 1;
+  var strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+      month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+  }
+  var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+  return currentdate;
+}
+
+getNowTime() {
+  var date = new Date();
+  var seperator2 = ":";
+  var currentdate = date.getHours() + seperator2 + date.getMinutes()
+          + seperator2 + date.getSeconds();
+  return currentdate;
+}
+
+
+// 取出一个对象里面的所有键值对用扩展符解构赋值
+{...object}

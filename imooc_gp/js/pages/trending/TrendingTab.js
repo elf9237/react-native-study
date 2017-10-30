@@ -77,7 +77,7 @@ export default class TrendingTab extends Component{
                 //     isLoading:false,
                 // });
                 this._getFavoriteKeys();
-                if (!this.items|| isRefresh && result && result.update_date && !dataRepository.checkData(result.update_date)) {
+                if (!this.items|| isRefresh && result && result.update_date && !Utils.checkData(result.update_date)) {
                     DeviceEventEmitter.emit('showToast', '数据已过时');
                     return dataRepository.fetchNetRepository(url);
                 } else {

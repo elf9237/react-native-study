@@ -10,7 +10,7 @@ import {
 import GitHubTrending from 'GitHubTrending';
 
 //设立 popular 和trending 模块标识
-export var FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'};
+export var FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending', flag_my: 'flag_my'};
 
 export default class DataRepository{
     constructor(flag) {
@@ -67,7 +67,33 @@ export default class DataRepository{
     }
     fetchNetRepository(url){
         return new Promise((resolve,reject)=>{
-            if(this.flag === FLAG_STORAGE.flag_trending) {
+            if(this.flag !== FLAG_STORAGE.flag_trending) {
+                // popular 模块直接从github API获取数据
+                fetch(url)
+                    .then(response=>response.json())  // 将文本解析为json
+                    .then(responseData=>{
+                        // if(!result) {
+                        //     reject(new Error('responseData is null'));
+                        //     return;
+                        // }
+                        // // console.log(result);
+                        // resolve(result.items);
+                        // this.saveRespository(url, result.items);
+                        // DeviceEventEmitter.emit('showToast', '获取网络数据');
+                        if(this.flag===FLAG_STORAGE.flag_my&&responseData){
+                            this.saveRespository(url, responseData);
+                            resolve(responseData);
+                        }else if (responseData&&responseData.items) {
+                            this.saveRespository(url, responseData.items);
+                            resolve(responseData.items);
+                        }else{
+                            reject(new Error('responseData is null'));
+                        }
+                    })
+                    .catch(error=>{
+                        reject(error);
+                    });
+            } else {
                 // trending 模块间接通过GithubTrending对象从github获取数据
                 this.trending.fetchTrending(url)
                     .then(result => {
@@ -78,25 +104,7 @@ export default class DataRepository{
                         this.saveRespository(url, result);
                         resolve(result);
                     });
-            } else {
-                // popular 模块直接从github API获取数据
-                fetch(url)
-                    .then(response=>response.json())  // 将文本解析为json
-                    .then(result=>{
-                        if(!result) {
-                            reject(new Error('responseData is null'));
-                            return;
-                        }
-                        // console.log(result);
-                        resolve(result.items);
-                        this.saveRespository(url, result.items);
-                        DeviceEventEmitter.emit('showToast', '获取网络数据');
-                    })
-                    .catch(error=>{
-                        reject(error);
-                    });
             }
-            
         });
     }
     /**
@@ -107,28 +115,20 @@ export default class DataRepository{
      */
     saveRespository(url, items, callBack) {
         if(!url || !items) return;
-        let wrapData = {
-            items: items,
-            update_date: new Date().getTime(),
-        };
+        let wrapData;
+        if(this.flag === FLAG_STORAGE.flag_my) {
+            wrapData = {
+                item: items,
+                update_date: new Date().getTime(),
+            };
+        }else{
+            wrapData = {
+                items: items,
+                update_date: new Date().getTime(),
+            };
+        }
         AsyncStorage.setItem(url, JSON.stringify(wrapData), callBack);
     }
 
-    /**
- * 判断数据是否过时
- * https://github.com/facebook/react-native
- * @param longTime 数据的时间戳
- * @returns {boolean}
- */
-    checkData(longTime) {
-        // return false;
-        let cDate = new Date();
-        let tDate = new Date();
-        tDate.setTime(longTime);
-        if(cDate.getFullYear() !== tDate.getFullYear()) return false;
-        if(cDate.getMonth() !== tDate.getMonth()) return false;
-        if(cDate.getDay() !== tDate.getDay()) return false;
-        if(cDate.getHours() - tDate.getHours > 4) return false;
-        return true;
-    }
+  
 }

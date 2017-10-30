@@ -71,9 +71,6 @@ export default class MyPage extends Component{
             style={{
                 backgroundColor:'#EE6363'
             }}
-            statusBar={{
-                backgroundColor:'#2196F3',
-            }}
         />;
         return (<View style={GlobalStyles.root_container}>
             {navigationBar}

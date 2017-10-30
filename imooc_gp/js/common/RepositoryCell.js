@@ -46,7 +46,6 @@ export default class RepositoryCell extends Component {
         </TouchableOpacity>;
         return <TouchableOpacity
             onPress={this.props.onSelect}
-            style={styles.container}
         >
             <View style={styles.cell_container}>
                 <Text style={styles.title}>{item.full_name}</Text>
@@ -82,9 +81,6 @@ export default class RepositoryCell extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     title: {
         fontSize: 16,
         color: '#212121',
@@ -114,3 +110,4 @@ const styles = StyleSheet.create({
         elevation:2
     }
 });
+

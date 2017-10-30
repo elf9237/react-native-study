@@ -116,7 +116,7 @@ export default class PopularTab extends React.Component{
 
                 //this._flushFavoriteState();
                 this._getFavoriteKeys();
-                if (result && result.update_date && !this.dataRepository.checkData(result.update_date)) {
+                if (result && result.update_date && !Utils.checkData(result.update_date)) {
                     DeviceEventEmitter.emit('showToast', '数据已过时');
                     return this.dataRepository.fetchNetRepository(url);
                 } else {

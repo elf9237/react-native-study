@@ -1,11 +1,17 @@
-npm install --save react-native-calendars
+// 下载依赖
+npm install --save-dev react-native-calendars
+// 下载指定版本依赖
+npm install --save-dev react-router@2.8.1
 
 // 卸载组件及第三方依赖包
 react-native unlink react-native-calendar
 npm uninstall react-native-calendar --save
 
-esline
+//语法规则和代码风格的检查工具 Eslint
 npm i -D eslint babel-eslint eslint-plugin-react
+
+
+
 // 底部导航菜单
 react-native-tab-navigator
 
@@ -31,8 +37,7 @@ react-native-check-box
 // 单选框
 react-native-flexi-radio-button
 
-// 第三方类型检查
-prop-types
+
 
 // 提示框 popover必须放在视图根目录下
 react-native-popover   
@@ -46,6 +51,8 @@ react-native-parallax-scroll-view
 react-native-display
 
 
+// 第三方类型检查
+prop-types
 
 // 用法：
 Greeting.propTypes = {
@@ -161,3 +168,4 @@ getNowTime() {
 
 // 取出一个对象里面的所有键值对用扩展符解构赋值
 {...object}
+

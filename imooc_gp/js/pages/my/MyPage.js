@@ -68,6 +68,9 @@ export default class MyPage extends Component{
     render(){
         var navigationBar = <NavigationBar
             title={'我的'}
+            statusBar={{
+                backgroundColor:'#2196F3'
+            }}
             style={{
                 backgroundColor:'#EE6363'
             }}

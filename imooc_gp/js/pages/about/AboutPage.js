@@ -21,9 +21,9 @@ import config from '../../../res/data/config.json';
 export default class AboutPage extends Component {
     constructor(props) {
         super(props);
-        this.aboutCommon = new AboutCommon(props, (dic) => this.updateState(dic), FLAG_ABOUT.flag_about, config);
+        this.aboutCommon = new AboutCommon(props, (dic) => this.setState(dic), FLAG_ABOUT.flag_about, config);
         this.state={
-            projectModel: [],
+            projectModels: [],
         };
     }
     updateState(dic){
@@ -64,7 +64,7 @@ export default class AboutPage extends Component {
 
     render(){
         let content = <View>
-            {this.aboutCommon.renderRepository(this.state.projectModel)}
+            {this.aboutCommon.renderRepository(this.state.projectModels)}
             {ViewUtils.getSettingItem(()=>this.onClick(MORE_MENU.WebSite), require('../../../res/images/ic_computer.png'), MORE_MENU.WebSite, {tintColor: '#2196F3'})}
             <View style={GlobalStyles.line}></View>
             {ViewUtils.getSettingItem(()=>this.onClick(MORE_MENU.About_Auther), require('../my/images/ic_insert_emoticon.png'), MORE_MENU.About_Auther, {tintColor: '#2196F3'})}

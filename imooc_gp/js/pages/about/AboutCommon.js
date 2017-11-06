@@ -31,7 +31,7 @@ export default class AboutCommon {
         this.repositories = [];
         this.favoriteKeys = null;
         this.favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
-        this.RespositoryUtils = new RespositoryUtils(this);
+        this.respositoryUtils = new RespositoryUtils(this);
         // super(props);
     }
 
@@ -45,14 +45,14 @@ export default class AboutCommon {
 
     componentDidMount() {
         if(this.flag_about == FLAG_ABOUT.flag_about) {
-            this.RespositoryUtils.fetchRespository(this.config.info.currentRepoUrl);
+            this.respositoryUtils.fetchRespository(this.config.info.currentRepoUrl);
         }else{
             var urls = [];
             var items = this.config.items;
             for(let i = 0,l = items.length; i< l; i++){
                 urls.push(this.config.info.url + items[i]);
             }
-            this.RespositoryUtils.fetchRespository(urls);
+            this.respositoryUtils.fetchRespositories(urls);
         }
     }
 

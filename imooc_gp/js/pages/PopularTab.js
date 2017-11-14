@@ -15,7 +15,7 @@ import RepositoryCell from '../common/RepositoryCell';
 import LanguageDao,{FLAG_LANGUAGE} from '../expand/dao/LanguageDao';
 import FavoriteDao from '../expand/dao/FavoriteDao';
 import Utils from '../util/Utils';
-
+import ActionsUtils from '../util/ActionsUtils';
 import RepositoryDetail from './RepositoryDetail';
 import ProjectModel from '../model/ProjectModel';
 import PropTypes from 'prop-types';
@@ -159,23 +159,27 @@ export default class PopularTab extends React.Component{
         }
         //this._getFavoriteKeys();
     }
-    onSelectRepository = (projectModel) => {
-        var item = projectModel.item;
-        this.props.navigator.push({
-            title: item.full_name,
-            component: RepositoryDetail,
-            params:{
-                projectModel:projectModel,
-                parentComponent: this,
-                flag:FLAG_STORAGE.flag_popular,
-                ...this.props,
-            }
-        });
-    }
+    // onSelectRepository = (projectModel) => {
+    //     var item = projectModel.item;
+    //     this.props.navigator.push({
+    //         title: item.full_name,
+    //         component: RepositoryDetail,
+    //         params:{
+    //             projectModel:projectModel,
+    //             parentComponent: this,
+    //             flag:FLAG_STORAGE.flag_popular,
+    //             ...this.props,
+    //         }
+    //     });
+    // }
     renderRow = (projectModel) => {
         return (
             <RepositoryCell
-                onSelect={() => this.onSelectRepository(projectModel)}
+                onSelect={() => ActionsUtils.onSelectRepository({
+                    projectModel: projectModel,
+                    flag:FLAG_STORAGE.flag_popular,
+                    ...this.props,
+                })}
                 key={projectModel.item.id}
                 projectModel={projectModel}
                 onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}

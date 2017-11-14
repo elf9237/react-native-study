@@ -22,6 +22,7 @@ import TimeSpan from '../../model/TimeSpan';
 import ProjectModel from '../../model/ProjectModel';
 import FavoriteDao from '../../expand/dao/FavoriteDao';
 import Utils from '../../util/Utils';
+import ActionsUtils from '../../util/ActionsUtils';
 const API_URL='https://github.com/trending/';
 var timeSpanTextArray = [
     new TimeSpan('今 天', 'since=daily'),
@@ -150,26 +151,30 @@ export default class TrendingTab extends Component{
             favoriteDao.removeFavoriteItem(item.fullName);
         }
     }
-    onSelectRepository = (projectModel) => {
-        var item = projectModel.item;
-        this.props.navigator.push({
-            title: item.fullName,
-            component: RepositoryDetail,
-            params:{
-                projectModel:projectModel,
-                parentComponent: this,
-                flag:FLAG_STORAGE.flag_trending,
-                ...this.props,
-            }
-        });
-    }
+    // onSelectRepository = (projectModel) => {
+    //     var item = projectModel.item;
+    //     this.props.navigator.push({
+    //         title: item.fullName,
+    //         component: RepositoryDetail,
+    //         params:{
+    //             projectModel:projectModel,
+    //             parentComponent: this,
+    //             flag:FLAG_STORAGE.flag_trending,
+    //             ...this.props,
+    //         }
+    //     });
+    // }
     onRefresh = () => {
         this.loadData(this.props.timeSpan, true);
     }
     renderRow(projectModel){
         return (
             <TrendingCell
-                onSelect={() => this.onSelectRepository(projectModel)}
+                onSelect={() => ActionsUtils.onSelectRepository({
+                    projectModel:projectModel,
+                    flag:FLAG_STORAGE.flag_trending,
+                    ...this.props,
+                })}
                 key={projectModel.item.fullName}
                 projectModel={projectModel}
                 onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}

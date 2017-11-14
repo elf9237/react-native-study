@@ -16,6 +16,7 @@ import GlobalStyles from '../../../res/styles/GlobalStyles';
 import ViewUtils from '../../util/ViewUtils';
 import AboutPage from '../about/AboutPage';
 
+
 export default class MyPage extends Component{
     constructor(props){
         super(props);
@@ -48,8 +49,6 @@ export default class MyPage extends Component{
             params.flag = FLAG_LANGUAGE.flag_langage;
             break;
         case MORE_MENU.Custom_Theme:
-            break;
-        case MORE_MENU.About_Auther:
             break;
         case MORE_MENU.About:
             TargetComponent = AboutPage;

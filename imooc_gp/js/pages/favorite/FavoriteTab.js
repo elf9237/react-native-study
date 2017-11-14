@@ -16,7 +16,7 @@ import TrendingCell from '../../common/TrendingCell';
 import LanguageDao,{FLAG_LANGUAGE} from '../../expand/dao/LanguageDao';
 import FavoriteDao from '../../expand/dao/FavoriteDao';
 import Utils from '../../util/Utils';
-
+import ActionsUtils from '../../util/ActionsUtils';
 import RepositoryDetail from '../RepositoryDetail';
 import ProjectModel from '../../model/ProjectModel';
 import ArrayUtils from '../../util/ArrayUtils';
@@ -73,19 +73,19 @@ export default class FavoriteTab extends React.Component{
     onRefresh() {
         this.loadData(true);
     }
-    onSelectRepository = (projectModel) => {
-        var item = projectModel.item;
-        this.props.navigator.push({
-            title: item.fullName,
-            component: RepositoryDetail,
-            params:{
-                projectModel:projectModel,
-                parentComponent: this,
-                flag:this.props.flag,
-                ...this.props,
-            }
-        });
-    }
+    // onSelectRepository = (projectModel) => {
+    //     var item = projectModel.item;
+    //     this.props.navigator.push({
+    //         title: item.fullName,
+    //         component: RepositoryDetail,
+    //         params:{
+    //             projectModel:projectModel,
+    //             parentComponent: this,
+    //             flag:this.props.flag,
+    //             ...this.props,
+    //         }
+    //     });
+    // }
 
     /**
      * favoriteIcon 的单击回调函数
@@ -114,7 +114,11 @@ export default class FavoriteTab extends React.Component{
         let CellComponent=this.props.flag === FLAG_STORAGE.flag_popular ? RepositoryCell : TrendingCell;
         return (
             <CellComponent
-                onSelect={() => this.onSelectRepository(projectModel)}
+                onSelect={() => ActionsUtils.onSelectRepository({
+                    projectModel:projectModel,
+                    flag:this.props.flag,
+                    ...this.props,
+                })}
                 key={this.props.flag ===FLAG_STORAGE.flag_popular? projectModel.item.id : projectModel.item.fullName}
                 projectModel={projectModel}
                 onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}

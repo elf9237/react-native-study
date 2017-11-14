@@ -65,6 +65,8 @@ StatusBar   // 状态栏
 Platform  // 判断运行平台
 RefreshControl // 下拉刷新功能，用在ScrollView或ListView内部
 WebView   //内嵌网页，自带loading效果
+Clipboard  //剪贴板
+Linking  //链接到邮箱，打电话
 
 // 展示多数据源的几个组件对比
 

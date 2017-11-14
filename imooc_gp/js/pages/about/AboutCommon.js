@@ -10,6 +10,7 @@ import {
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import ViewUtils from '../../util/ViewUtils';
+import ActionsUtils from '../../util/ActionsUtils';
 import FavoriteDao from '../../expand/dao/FavoriteDao';
 import RespositoryUtils from '../../expand/dao/RespositoryUtils';
 import {FLAG_STORAGE} from '../../expand/dao/DataRepository';
@@ -69,9 +70,10 @@ export default class AboutCommon {
         let projectModels = [];
         for(var i =0, len = this.repositories.length; i< len; i++) {
             var data = this.repositories[i];
+            data = data.item ? data.item : data;
             projectModels.push({
-                isFavorite: Utils.checkFavorite(this.repositories[i], this.favoriteKeys ? this.favoriteKeys : []),
-                item: data.item ? data.item : data,
+                isFavorite: Utils.checkFavorite(data, this.favoriteKeys ? this.favoriteKeys : []),
+                item: data,
             });
         }
         this.updateState({
@@ -91,7 +93,11 @@ export default class AboutCommon {
             let projectModel = projectModels[i];
             views.push(
                 <RepositoryCell
-                    onSelect={() => this.onSelectRepository(projectModel)}
+                    onSelect={()=>ActionsUtils.onSelectRepository({
+                        projectModel:projectModel,
+                        ...this.props,
+                        flag:FLAG_STORAGE.flag_popular
+                    })}
                     key={projectModel.item.id}
                     projectModel={projectModel}
                     onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}
@@ -114,19 +120,7 @@ export default class AboutCommon {
         }
         //this._getFavoriteKeys();
     }
-    onSelectRepository = (projectModel) => {
-        var item = projectModel.item;
-        this.props.navigator.push({
-            title: item.full_name,
-            component: RepositoryDetail,
-            params:{
-                projectModel:projectModel,
-                parentComponent: this,
-                flag:FLAG_STORAGE.flag_popular,
-                ...this.props,
-            }
-        });
-    }
+
     getParallaxRenderConfig(params){
         let config = {};
         config.renderBackground= () => (

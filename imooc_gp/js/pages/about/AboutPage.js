@@ -17,6 +17,7 @@ import GlobalStyles from '../../../res/styles/GlobalStyles';
 import AboutCommon, {FLAG_ABOUT} from './AboutCommon';
 import WebViewPage from '../WebViewPage';
 import config from '../../../res/data/config.json';
+import AboutMePage from './AboutMePage';
 
 export default class AboutPage extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ export default class AboutPage extends Component {
         this.aboutCommon = new AboutCommon(props, (dic) => this.setState(dic), FLAG_ABOUT.flag_about, config);
         this.state={
             projectModels: [],
+            author:config.author,
         };
     }
     updateState(dic){
@@ -36,7 +38,9 @@ export default class AboutPage extends Component {
         let TargetComponent, params ={...this.props, menuType: tab };
         switch(tab) {
         case MORE_MENU.About_Auther:
+            TargetComponent = AboutMePage;
             break;
+        break;
         case MORE_MENU.WebSite:
             TargetComponent = WebViewPage;
             params.url = 'http://www.devio.org/io/GitHubPopular/';
@@ -75,8 +79,8 @@ export default class AboutPage extends Component {
         return this.aboutCommon.render(content, {
             'name':'Github Popular',
             'description': '这是一个用来查看GitHub最受欢迎与最热项目的App,它基于React Native支持Android和iOS双平台。',
-            'avatar': 'https://avatars2.githubusercontent.com/u/8716595?v=4&s=460',
-            'backgroundImg': 'http://mpic.tiankong.com/795/369/795369bfa33ca4717aa6082ed7552722/640.jpg@300h',
+            'avatar': this.state.author.avatar1,
+            'backgroundImg': this.state.author.backgroundImg1,
         });
     }
 }

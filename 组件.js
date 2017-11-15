@@ -171,3 +171,9 @@ getNowTime() {
 // 取出一个对象里面的所有键值对用扩展符解构赋值
 {...object}
 
+
+
+// bug
+
+// 1、TextInput的组件在Android上输入文字被遮挡住，直接在TextInput的样式上加padding:0
+// 2、TextInput失去焦点后键盘会隐藏起来

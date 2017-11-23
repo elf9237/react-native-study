@@ -100,7 +100,7 @@ export default class AboutCommon {
                     })}
                     key={projectModel.item.id}
                     projectModel={projectModel}
-                    onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}
+                    onFavorite={(item, isFavorite) => ActionsUtils._onFavorite(this.favoriteDao, item, isFavorite, FLAG_STORAGE.flag_popular)}
                 />
             );
         }
@@ -112,14 +112,14 @@ export default class AboutCommon {
      * @param isFavorite
      */
 
-    _onFavorite = (item, isFavorite) => {
-        if(isFavorite) {
-            this.favoriteDao.saveFavoriteItem(item.id.toString(), JSON.stringify(item));
-        }else{
-            this.favoriteDao.removeFavoriteItem(item.id.toString());
-        }
-        //this._getFavoriteKeys();
-    }
+    // _onFavorite = (item, isFavorite) => {
+    //     if(isFavorite) {
+    //         this.favoriteDao.saveFavoriteItem(item.id.toString(), JSON.stringify(item));
+    //     }else{
+    //         this.favoriteDao.removeFavoriteItem(item.id.toString());
+    //     }
+    //     //this._getFavoriteKeys();
+    // }
 
     getParallaxRenderConfig(params){
         let config = {};

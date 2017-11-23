@@ -1,3 +1,4 @@
+
 // 下载依赖
 npm install --save-dev react-native-calendars
 // 下载指定版本依赖
@@ -7,9 +8,20 @@ npm install --save-dev react-router@2.8.1
 react-native unlink react-native-calendar
 npm uninstall react-native-calendar --save
 
+
 //语法规则和代码风格的检查工具 Eslint
 npm i -D eslint babel-eslint eslint-plugin-react
 
+// 第三方类型检查
+prop-types
+
+// 用法：
+Greeting.propTypes = {
+    name: PropTypes.string
+};
+
+
+//路由导航
 
 
 // 底部导航菜单
@@ -51,13 +63,7 @@ react-native-parallax-scroll-view
 react-native-display
 
 
-// 第三方类型检查
-prop-types
 
-// 用法：
-Greeting.propTypes = {
-    name: PropTypes.string
-  };
 
 // react-native
 AsyncStorage // 本地数据存储
@@ -177,3 +183,16 @@ getNowTime() {
 
 // 1、TextInput的组件在Android上输入文字被遮挡住，直接在TextInput的样式上加padding:0
 // 2、TextInput失去焦点后键盘会隐藏起来
+//3、组件中this指当前组件
+//4、组件被卸载之后要取消定时器，否则会报异常
+
+this.timer=setTimeout(()=>{
+    // 使用resetTo重置路由，将第一个组件重置为首页
+    this.props.navigator.resetTo({
+        component:HomePage
+    });
+},2000);
+
+componentWillUnmount(){
+    this.timer&&clearTimeout(this.timer);
+}

@@ -23,7 +23,6 @@ import PropTypes from 'prop-types';
 const URL='https://api.github.com/search/repositories?q=';
 const QUERY_STR='&page,per_page,sort,order';
 
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 
 export default class PopularTab extends React.Component{
     constructor(props){
@@ -31,6 +30,7 @@ export default class PopularTab extends React.Component{
         // 类初始化后才能在自定义函数方法中调用
         this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
         this.isFavoriteChanged = false; //初始化收藏状态
+        this.favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
         this.state={
             result:'',
             dataSource:new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),
@@ -88,7 +88,7 @@ export default class PopularTab extends React.Component{
         });
     }
     _getFavoriteKeys = () => {
-        favoriteDao.getFavoriteKeys()
+        this.favoriteDao.getFavoriteKeys()
             .then(keys => {
                 if(keys){
                     // console.log(keys);
@@ -150,15 +150,15 @@ export default class PopularTab extends React.Component{
      * @param isFavorite
      */
 
-    _onFavorite = (item, isFavorite) => {
-        console.log(isFavorite);
-        if(isFavorite) {
-            favoriteDao.saveFavoriteItem(item.id.toString(), JSON.stringify(item));
-        }else{
-            favoriteDao.removeFavoriteItem(item.id.toString());
-        }
-        //this._getFavoriteKeys();
-    }
+    // _onFavorite = (item, isFavorite) => {
+    //     console.log(isFavorite);
+    //     if(isFavorite) {
+    //         favoriteDao.saveFavoriteItem(item.id.toString(), JSON.stringify(item));
+    //     }else{
+    //         favoriteDao.removeFavoriteItem(item.id.toString());
+    //     }
+    //     //this._getFavoriteKeys();
+    // }
     // onSelectRepository = (projectModel) => {
     //     var item = projectModel.item;
     //     this.props.navigator.push({
@@ -182,7 +182,7 @@ export default class PopularTab extends React.Component{
                 })}
                 key={projectModel.item.id}
                 projectModel={projectModel}
-                onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}
+                onFavorite={(item, isFavorite) => ActionsUtils._onFavorite(this.favoriteDao, item, isFavorite)}
             />
         );
     }

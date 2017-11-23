@@ -94,12 +94,12 @@ export default class FavoriteTab extends React.Component{
      */
 
     _onFavorite = (item, isFavorite) => {
-        var key = this.props.flag === FLAG_STORAGE.flag_popular ? item.id.toString() :item.fullName;
-        if(isFavorite) {
-            this.favoriteDao.saveFavoriteItem(key, JSON.stringify(item));
-        }else{
-            this.favoriteDao.removeFavoriteItem(key);
-        }
+        // var key = this.props.flag === FLAG_STORAGE.flag_popular ? item.id.toString() :item.fullName;
+        // if(isFavorite) {
+        //     this.favoriteDao.saveFavoriteItem(key, JSON.stringify(item));
+        // }else{
+        //     this.favoriteDao.removeFavoriteItem(key);
+        // }
         ArrayUtils.updataArray(this.unFavoriteItems, item);
         if(this.unFavoriteItems.length > 0) {
             if(this.props.flag === FLAG_STORAGE.flag_popular){
@@ -121,7 +121,7 @@ export default class FavoriteTab extends React.Component{
                 })}
                 key={this.props.flag ===FLAG_STORAGE.flag_popular? projectModel.item.id : projectModel.item.fullName}
                 projectModel={projectModel}
-                onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}
+                onFavorite={(item, isFavorite) => ActionsUtils._onFavorite(this.favoriteDao, item, isFavorite, this.props.flag)}
             />
         );
     }

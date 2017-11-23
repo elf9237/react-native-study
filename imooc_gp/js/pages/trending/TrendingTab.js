@@ -29,13 +29,13 @@ var timeSpanTextArray = [
     new TimeSpan('本 周', 'since=weekly'),
     new TimeSpan('本 月', 'since=monthly'),
 ];
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
+
 const dataRepository=new DataRepository(FLAG_STORAGE.flag_trending);
 export default class TrendingTab extends Component{
     constructor(props){
         super(props);
         // 类初始化后才能在自定义函数方法中调用
-        
+        this.favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
         this.state={
             result:'',
             dataSource:new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),
@@ -104,7 +104,7 @@ export default class TrendingTab extends Component{
             });
     }
     _getFavoriteKeys = () => {
-        favoriteDao.getFavoriteKeys()
+        this.favoriteDao.getFavoriteKeys()
             .then(keys => {
                 // console.log(keys);
                 if(keys){
@@ -144,13 +144,13 @@ export default class TrendingTab extends Component{
      * @param isFavorite
      */
 
-    _onFavorite = (item, isFavorite) => {
-        if(isFavorite) {
-            favoriteDao.saveFavoriteItem(item.fullName, JSON.stringify(item));
-        }else{
-            favoriteDao.removeFavoriteItem(item.fullName);
-        }
-    }
+    // _onFavorite = (item, isFavorite) => {
+    //     if(isFavorite) {
+    //         this.favoriteDao.saveFavoriteItem(item.fullName, JSON.stringify(item));
+    //     }else{
+    //         this.favoriteDao.removeFavoriteItem(item.fullName);
+    //     }
+    // }
     // onSelectRepository = (projectModel) => {
     //     var item = projectModel.item;
     //     this.props.navigator.push({
@@ -177,7 +177,7 @@ export default class TrendingTab extends Component{
                 })}
                 key={projectModel.item.fullName}
                 projectModel={projectModel}
-                onFavorite={(item, isFavorite) => this._onFavorite(item, isFavorite)}
+                onFavorite={(item, isFavorite) => ActionsUtils._onFavorite(this.favoriteDao, item, isFavorite, FLAG_STORAGE.flag_trending)}
             />
         );
     }

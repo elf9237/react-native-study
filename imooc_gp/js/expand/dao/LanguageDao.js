@@ -17,6 +17,7 @@ export default class LanguageDao{
     fetch(){
         return new Promise((resolve,reject)=>{
             AsyncStorage.getItem(this.flag,(error,result)=>{
+                console.log(result);
                 if(error){
                     reject(error);
                     return;

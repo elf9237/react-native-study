@@ -22,7 +22,11 @@ Greeting.propTypes = {
 
 
 //路由导航
+react-navigation
+react-redux
 
+npm install --save redux react-redux redux-thunk
+npm install --save-dev redux-logger
 
 // 底部导航菜单
 react-native-tab-navigator
@@ -196,3 +200,6 @@ this.timer=setTimeout(()=>{
 componentWillUnmount(){
     this.timer&&clearTimeout(this.timer);
 }
+
+// 5、使用非字符串做法
+// ${非字符串}或者{非字符串语句}

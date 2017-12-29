@@ -25,6 +25,8 @@ Greeting.propTypes = {
 react-navigation
 react-redux
 
+react-router
+
 npm install --save redux react-redux redux-thunk
 npm install --save-dev redux-logger
 
@@ -183,12 +185,13 @@ getNowTime() {
 
 
 
-// bug
+// Note:
 
 // 1、TextInput的组件在Android上输入文字被遮挡住，直接在TextInput的样式上加padding:0
 // 2、TextInput失去焦点后键盘会隐藏起来
 //3、组件中this指当前组件
 //4、组件被卸载之后要取消定时器，否则会报异常
+//5、导入某个文件夹下的入口文件index.js,导入路径只要写到这个文件夹，会默认导入index.js这个入口文件
 
 this.timer=setTimeout(()=>{
     // 使用resetTo重置路由，将第一个组件重置为首页
@@ -203,3 +206,7 @@ componentWillUnmount(){
 
 // 5、使用非字符串做法
 // ${非字符串}或者{非字符串语句}
+
+
+// 闪退后查询错误
+react-native log-android
